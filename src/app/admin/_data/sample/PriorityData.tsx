@@ -1,0 +1,1 @@
+export const PriorityData = Array.from({ length: 7 }, (v, i) => i + 1)
