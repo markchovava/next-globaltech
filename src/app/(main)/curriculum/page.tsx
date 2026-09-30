@@ -1,5 +1,5 @@
 import BreadCrumb from '@/_components/breadcrumbs/BreadCrumb'
-import Header2 from '@/_components/headers/Header2'
+
 import ContactSection from '@/_components/sections/ContactSection'
 import SectionDualText from '@/_components/sections/SectionDualText'
 import SectionOne from '@/_components/sections/SectionOne'
@@ -50,7 +50,7 @@ export default async function page() {
 
     return (
         <>
-            <Header2 name={title} image={AppInfoData.headers[2]} />
+
             <BreadCrumb data={CrumbsData} />
 
 

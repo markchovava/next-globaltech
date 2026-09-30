@@ -1,5 +1,5 @@
 import BreadCrumb from "@/_components/breadcrumbs/BreadCrumb"
-import Header2 from "@/_components/headers/Header2"
+
 import AddressMap from "@/_components/maps/AddressMap"
 import AdmissionSection from "@/_components/sections/AdmissionSection"
 import ContactSection from "@/_components/sections/ContactSection"
@@ -34,7 +34,7 @@ export default async function page() {
     /* const [appData] = await Promise.all([appInfoViewAction()]) */
     return (
         <>
-            <Header2 name={title} image={AppInfoData.headers[3]} />
+
             <BreadCrumb data={CrumbsData} />
 
             <Spacer />

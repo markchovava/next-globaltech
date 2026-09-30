@@ -1,15 +1,11 @@
 import BreadCrumb from '@/_components/breadcrumbs/BreadCrumb'
-import Header2 from '@/_components/headers/Header2'
 import HeaderSecondary from '@/_components/headers/HeaderSecondary'
 import ContactSection from '@/_components/sections/ContactSection'
-import SectionDualText from '@/_components/sections/SectionDualText'
 import SectionPrimary from '@/_components/sections/SectionPrimary'
 import SectionPrimaryDark from '@/_components/sections/SectionPrimaryDark'
-import SectionTrioText from '@/_components/sections/SectionTrioText'
 import ValuesSection from '@/_components/sections/ValuesSection'
 import Spacer from '@/_components/spacers/Spacer'
 import { AppInfoData } from '@/_data/sample/AppinfoData'
-import { appInfoViewAction } from '@/app/admin/_data/actions/AppInfoActions'
 import { Metadata } from 'next'
 
 

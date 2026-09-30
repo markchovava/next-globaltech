@@ -1,13 +1,9 @@
 import BreadCrumb from "@/_components/breadcrumbs/BreadCrumb"
-import Header2 from "@/_components/headers/Header2"
 import ContactSection from "@/_components/sections/ContactSection"
-import MediaSection from "@/_components/sections/MediaSection"
 import MediaViewSection from "@/_components/sections/MediaViewSection"
 import Spacer from "@/_components/spacers/Spacer"
-import TitleNormal from "@/_components/titles/TitleNormal"
 import { AppInfoData } from "@/_data/sample/AppinfoData"
 import { MediaData } from "@/_data/sample/MediaData"
-import { OffersData } from "@/_data/sample/OffersData"
 
 
 const title = "View Media"
@@ -38,8 +34,6 @@ export default async function page({ params }: Props) {
 
     return (
         <>
-
-            <Header2 name={title} image={AppInfoData.headers[2]} />
             <BreadCrumb data={CrumbsData} />
 
             <MediaViewSection

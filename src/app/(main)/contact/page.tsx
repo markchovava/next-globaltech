@@ -1,5 +1,4 @@
 import BreadCrumb from "@/_components/breadcrumbs/BreadCrumb"
-import Header2 from "@/_components/headers/Header2"
 import HeaderSecondary from "@/_components/headers/HeaderSecondary"
 import AddressMap from "@/_components/maps/AddressMap"
 import ContactSection from "@/_components/sections/ContactSection"

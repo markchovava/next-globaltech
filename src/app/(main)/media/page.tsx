@@ -1,5 +1,4 @@
 import BreadCrumb from "@/_components/breadcrumbs/BreadCrumb"
-import Header2 from "@/_components/headers/Header2"
 import ContactSection from "@/_components/sections/ContactSection"
 import EventSection from "@/_components/sections/EventSection"
 import MediaSection from "@/_components/sections/MediaSection"
@@ -23,7 +22,6 @@ export default async function Page() {
     return (
         <>
 
-            <Header2 name={title} image={AppInfoData.headers[0]} />
             <BreadCrumb data={CrumbsData} />
 
             <div className="bg-gray-50">
