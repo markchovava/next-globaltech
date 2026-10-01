@@ -1,11 +1,13 @@
 import BreadCrumb from '@/_components/breadcrumbs/BreadCrumb'
 import HeaderSecondary from '@/_components/headers/HeaderSecondary'
 import ContactSection from '@/_components/sections/ContactSection'
+import ManagementSection from '@/_components/sections/ManagementSection'
 import SectionPrimary from '@/_components/sections/SectionPrimary'
 import SectionPrimaryDark from '@/_components/sections/SectionPrimaryDark'
 import ValuesSection from '@/_components/sections/ValuesSection'
 import Spacer from '@/_components/spacers/Spacer'
 import { AppInfoData } from '@/_data/sample/AppinfoData'
+import { ManagementData } from '@/_data/sample/ManagementData'
 import { Metadata } from 'next'
 
 
@@ -48,7 +50,6 @@ export default async function page() {
                     title={AppInfoData.about.name}
                     subtitle="About Us"
                     details={AppInfoData.about.intro}
-                    withContact={true}
                 />
             </div>
 
@@ -56,21 +57,29 @@ export default async function page() {
                 <SectionPrimary
                     dir='right'
                     image="/assets/images/gallery/08.jpg"
-                    title={AppInfoData.mission.name}
+                    title={AppInfoData?.mission?.name}
                     subtitle="Our Mission"
-                    withContact={true}
-                    details={AppInfoData.mission.details}
+                    details={AppInfoData?.mission?.details}
                 />
             </div>
 
             <div id='vision'>
-                <SectionPrimaryDark
+                <SectionPrimary
                     dir='left'
-                    image="/assets/images/gallery/03.jpg"
-                    title={AppInfoData.vision.name}
+                    image="/assets/images/gallery/08.jpg"
+                    title={AppInfoData?.vision?.name}
                     subtitle="Our Vision"
-                    withContact={false}
-                    details={AppInfoData.vision.details}
+                    details={AppInfoData?.vision?.details}
+                />
+            </div>
+
+            <div id='why-us'>
+                <SectionPrimaryDark
+                    dir='right'
+                    image="/assets/images/gallery/03.jpg"
+                    title={AppInfoData?.whyUs?.title}
+                    details={AppInfoData?.whyUs?.details}
+                    subtitle="Why Us"
                 />
             </div>
 
@@ -80,6 +89,15 @@ export default async function page() {
                     title='Our Values'
                     subtitle={title}
                     values={AppInfoData.values.list} />
+            </div>
+
+            <div>
+                <Spacer />
+                <ManagementSection
+                    title="Our Leadership"
+                    subtitle="Meet Our Team"
+                    data={ManagementData} />
+                <Spacer />
             </div>
 
 

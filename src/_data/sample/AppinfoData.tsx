@@ -50,14 +50,11 @@ export const AppInfoData = {
     },
     whyUs: {
         title: 'Why Choose Us?',
-        intro: <>
+        details: <>
             Combining over 15 years of regional expertise across Southern Africa and deep multidisciplinary HR
             consulting knowledge, we deliver tailormade, high-quality solutions in partnership with clients to drive
             sustainable long-term success.
         </>,
-        details: <>
-
-        </>
     },
     curriculum: {
         name: 'Our Curriculum',

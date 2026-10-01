@@ -42,7 +42,7 @@ export default function ValuesSection({ title, subtitle, values }: Props) {
                     name={title}
                     title={subtitle} />
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-                    {values.map((i, key) => (
+                    {values && values.length > 0 && values.map((i, key) => (
                         <motion.div
                             key={key}
                             initial={{ opacity: 0, y: 40, scale: 0.94, filter: "blur(6px)" }}
