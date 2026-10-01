@@ -1,3 +1,5 @@
+import { ReactNode } from "react"
+
 export interface AppInfoInterface {
     id: string | number
     userId: string | number
@@ -16,6 +18,7 @@ export interface AppInfoInterface {
     twitter: string | null
     createdAt: string
     updatedAt: string
+    emailList?: ReactNode
 }
 
 export const AppInfoEntity: AppInfoInterface = {
@@ -35,5 +38,6 @@ export const AppInfoEntity: AppInfoInterface = {
     linkedin: '',
     twitter: '',
     createdAt: '',
-    updatedAt: ''
+    updatedAt: '',
+    emailList: <></>,
 }

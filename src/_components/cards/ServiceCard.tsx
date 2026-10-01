@@ -169,7 +169,7 @@ export default function ServiceCard({
                         setToggleModal(true)
                         setService(data)
                     }}>
-                    <h4 className="text-xl font-medium">
+                    <h4 className="text-x text-start font-medium">
                         {data.name}
                     </h4>
                 </button>

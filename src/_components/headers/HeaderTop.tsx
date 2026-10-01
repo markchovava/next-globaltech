@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { ReactNode, useEffect, useState } from "react"
 import Link from "next/link"
 import { AnimatePresence, motion, useReducedMotion } from "motion/react"
 import IconDefault from "../icons/IconDefault"
@@ -132,7 +132,7 @@ function OfficeBadge({ status }: { status: OfficeStatus }) {
 /* ------------------------------------------------------------------ */
 interface cProps {
     type: string
-    label: string
+    label: string | ReactNode
     href: string
     copyValue?: string
 }

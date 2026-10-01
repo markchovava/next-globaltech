@@ -1,6 +1,7 @@
 import BreadCrumb from "@/_components/breadcrumbs/BreadCrumb"
 import HeaderSecondary from "@/_components/headers/HeaderSecondary"
 import AddressMap from "@/_components/maps/AddressMap"
+import AddressMap2 from "@/_components/maps/AddressMap2"
 import ContactSection from "@/_components/sections/ContactSection"
 import Spacer from "@/_components/spacers/Spacer"
 import TitleNormal from "@/_components/titles/TitleNormal"
@@ -57,7 +58,7 @@ export default async function page() {
             <Spacer />
 
             <section className="w-screen h-70">
-                <AddressMap />
+                <AddressMap2 />
             </section>
 
         </>

@@ -16,7 +16,8 @@ export const AppInfoData = {
     tagline: `One Team. One Purpose. Your Success.`,
     phone: '+263 775 694641',
     address: '288 Herbert Chitepo Corner 7th Avenue, Harare, Zimbabwe',
-    email: <>
+    email: 'info@globaltechhcc.co.zw',
+    emailList: <>
         info@globaltechhcc.co.zw <br />
         kenneth@globaltechhcc.co.zw <br />
         admin@globaltechhcc.co.zw <br />

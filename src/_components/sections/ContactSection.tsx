@@ -46,7 +46,7 @@ export default function ContactSection({ dbData }: Props) {
     // build the visible rows so we can index them for staggering
     const rows = [
         data?.phone && { key: "phone", name: data.phone, iconType: "phone" as const },
-        data?.email && { key: "email", name: data.email, iconType: "email" as const },
+        data?.emailList && { key: "email", name: data.emailList, iconType: "email" as const },
         data?.address && { key: "address", name: data.address, iconType: "address" as const },
     ].filter(Boolean) as { key: string; name: string; iconType: "phone" | "email" | "address" }[]
 
