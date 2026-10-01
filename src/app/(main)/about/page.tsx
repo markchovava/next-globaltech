@@ -39,14 +39,14 @@ export default async function page() {
 
     return (
         <>
-            <HeaderSecondary name={title} image={AppInfoData.headers[2]} />
+            <HeaderSecondary name={title} image={AppInfoData.headers[1]} />
             <BreadCrumb data={CrumbsData} />
 
 
             <div className='about'>
                 <SectionPrimary
                     dir='left'
-                    image="/assets/images/gallery/05.jpg"
+                    image={AppInfoData.images[0]}
                     title={AppInfoData.about.name}
                     subtitle="About Us"
                     details={AppInfoData.about.intro}
@@ -56,7 +56,7 @@ export default async function page() {
             <div id='mission'>
                 <SectionPrimary
                     dir='right'
-                    image="/assets/images/gallery/08.jpg"
+                    image={AppInfoData.images[1]}
                     title={AppInfoData?.mission?.name}
                     subtitle="Our Mission"
                     details={AppInfoData?.mission?.details}
@@ -66,7 +66,7 @@ export default async function page() {
             <div id='vision'>
                 <SectionPrimary
                     dir='left'
-                    image="/assets/images/gallery/08.jpg"
+                    image={AppInfoData.images[2]}
                     title={AppInfoData?.vision?.name}
                     subtitle="Our Vision"
                     details={AppInfoData?.vision?.details}
@@ -76,7 +76,7 @@ export default async function page() {
             <div id='why-us'>
                 <SectionPrimaryDark
                     dir='right'
-                    image="/assets/images/gallery/03.jpg"
+                    image={AppInfoData.images[3]}
                     title={AppInfoData?.whyUs?.title}
                     details={AppInfoData?.whyUs?.details}
                     subtitle="Why Us"

@@ -31,11 +31,11 @@ export default async function Page() {
 
   return (
     <>
-      <BannerMain image={AppInfoData.headers[0]} />
+      <BannerMain image={AppInfoData.banners[0]} />
 
       <SectionPrimary
         dir='left'
-        image="/assets/images/gallery/01.jpg"
+        image={AppInfoData.images[0]}
         title={AppInfoData.about.name}
         subtitle="About Us"
         details={AppInfoData.about.intro}
@@ -49,13 +49,13 @@ export default async function Page() {
 
       <SectionPrimaryDark
         dir='right'
-        image="/assets/images/gallery/07.jpg"
+        image={AppInfoData.images[3]}
         title={AppInfoData.whyUs.title}
         subtitle="About Us"
         btnName="Why Us?"
         href="/about#whyUs"
-        withContact={false}
-        details={AppInfoData.whyUs.intro}
+        withContact={true}
+        details={AppInfoData.whyUs.details}
       />
 
       <ServiceSection

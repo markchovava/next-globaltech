@@ -45,7 +45,7 @@ export default async function page() {
     return (
         <>
 
-            <HeaderSecondary name='Contact Us' image={AppInfoData.headers[4]} />
+            <HeaderSecondary name='Contact Us' image={AppInfoData.headers[3]} />
             <BreadCrumb data={CrumbsData} />
 
             <Spacer />
