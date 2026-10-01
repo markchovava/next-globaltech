@@ -14,13 +14,13 @@ export const AppInfoData = {
     ],
     intro: `Welcome to Globaltech Human Capital Corporation`,
     tagline: `One Team. One Purpose. Your Success.`,
-    phone: '+263 775 694641',
+    phone: '+263 775 694641 / +263 242 339439',
     address: '288 Herbert Chitepo Corner 7th Avenue, Harare, Zimbabwe',
     email: 'info@globaltechhcc.co.zw',
     emailList: <>
+        recruitment@globaltechhcc.co.zw <br />
         info@globaltechhcc.co.zw <br />
-        kenneth@globaltechhcc.co.zw <br />
-        admin@globaltechhcc.co.zw <br />
+        kennedyc@globaltechhcc.co.zw <br />
     </>,
     about: {
         name: `Who We Are`,
