@@ -58,7 +58,7 @@ export default async function page() {
             <Spacer />
 
             <section className="w-screen h-70">
-                <AddressMap2 />
+                <AddressMap />
             </section>
 
         </>
