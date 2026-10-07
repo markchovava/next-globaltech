@@ -1,6 +1,69 @@
 @import "tailwindcss";
 
 
+:root {
+  /* TEXT VARIABLES */
+  --text__primary: #0f5b82;
+  --text__secondary: #5194c7;
+  --text__tertiary: #76c8ff;
+
+  /* BACKGROUND VARIABLES */
+  --bg__primary: #0f5b82;
+  --bg__secondary: #5194c7;
+  --bg__tertiary: #76c8ff;
+}
+
+/* TEXT CLASSES */
+.text__primary {
+  color: var(--text__primary);
+}
+
+.text__secondary {
+  color: var(--text__secondary);
+}
+
+.text__tertiary {
+  color: var(--text__tertiary);
+}
+
+/* BACKGROUND CLASSES */
+.bg__primary {
+  background-color: var(--bg__primary);
+}
+
+.bg__secondary {
+  background-color: var(--bg__secondary);
+}
+
+.bg__tertiary {
+  background-color: var(--bg__tertiary);
+}
+
+/* HOVER UTILITIES */
+.hover\:text__primary:hover {
+  color: var(--text__primary);
+}
+
+.hover\:text__secondary:hover {
+  color: var(--text__secondary);
+}
+
+.hover\:text__tertiary:hover {
+  color: var(--text__tertiary);
+}
+
+.hover\:bg__primary:hover {
+  background-color: var(--bg__primary);
+}
+
+.hover\:bg__secondary:hover {
+  background-color: var(--bg__secondary);
+}
+
+.hover\:bg__tertiary:hover {
+  background-color: var(--bg__tertiary);
+}
+
 .container__primary {
   @apply mx-auto w-[93%];
 }

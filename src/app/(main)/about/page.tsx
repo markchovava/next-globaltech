@@ -94,7 +94,7 @@ export default async function page() {
             <div>
                 <Spacer />
                 <ManagementSection
-                    title="Our Leadership"
+                    title="Our Team"
                     subtitle="Meet Our Team"
                     data={ManagementData} />
                 <Spacer />

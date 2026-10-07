@@ -86,7 +86,7 @@ function MainDataArea() {
       <RecordDefault label='Code' value={preData?.code ?? 'Not Added yet.'} />
       <RecordDefault label='Address' value={preData?.address ?? 'Not Added yet.'} />
       <RecordDefault label='Phone Number' value={preData?.phone ?? 'Not Added yet.'} />
-      <RecordDefault label='Role Level' value={preData?.roleLevel ?? 'Not Added yet.'} />
+      {/* <RecordDefault label='Role Level' value={preData?.roleLevel ?? 'Not Added yet.'} /> */}
       <RecordDefault label='Admin' value={preData?.isAdmin ?? 'Not Added yet.'} />
       <SpacerPrimary />
     </section>

@@ -4,10 +4,10 @@ import { deleteCookie, getCookie, setCookie } from "cookies-next";
 
 export const cookieDuration = 60 * 60 * 24 * 30 * 30;
 
-export const AuthTokenCookieName = 'OWN_ONE_AUTH_TOKEN_COOKIE'
-export const UserCookieName = 'OWN_ONE_CURRENT_USER_COOKIE'
-export const CartCookieName = 'OWN_ONE_CART_COOKIE'
-export const CartItemCookieName = 'OWN_ONE_CART_ITEMS_COOKIE'
+export const AuthTokenCookieName = 'GLOBALTECH_AUTH_TOKEN_COOKIE'
+export const UserCookieName = 'GLOBALTECH_CURRENT_USER_COOKIE'
+export const CartCookieName = 'GLOBALTECH_CART_COOKIE'
+export const CartItemCookieName = 'GLOBALTECH_CART_ITEMS_COOKIE'
 
 export const setTheCookie = async (name: string = AuthTokenCookieName, token: string) => {
     await setCookie(name, token, { maxAge: cookieDuration });

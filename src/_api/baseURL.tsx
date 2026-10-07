@@ -1,2 +1,2 @@
-// export const baseURL = 'http://127.0.0.1:8000/';
-export const baseURL = 'https://zenithspace.fldesigners.co.zw/';
+export const baseURL = 'http://127.0.0.1:8000/';
+//export const baseURL = 'https://zenithspace.fldesigners.co.zw/';

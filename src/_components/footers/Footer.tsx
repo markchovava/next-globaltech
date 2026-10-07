@@ -42,7 +42,7 @@ const bottomBarTransition: Transition = {
 
 export default function Footer() {
     return (
-        <section className="w-full bg-cyan-900 text-gray-100 py-28 overflow-hidden">
+        <section className="w-full bg-cyan-950 text-gray-100 py-28 overflow-hidden">
             <div className="container__primary grid lg:grid-cols-3 grid-cols-1 gap-8">
                 <div className="space-y-8">
                     <motion.div

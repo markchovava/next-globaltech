@@ -11,7 +11,7 @@ interface PropInterface {
     css?: string
 }
 
-export default function Button({
+export default function ButtonSecondary({
     name,
     type = 'button',
     onClick,
@@ -30,14 +30,7 @@ export default function Button({
             whileTap={{ scale: 0.9 }}
             animate={{ opacity: status ? 0.5 : 1 }}
             className={`${css} group relative flex items-center justify-center gap-1 cursor-pointer
-            bg__primary rounded-full overflow-hidden disabled:cursor-not-allowed`}
-            style={{
-                backgroundImage: onHover
-                    ? 'linear-gradient(to bottom right, var(--bg__primary), var(--bg__primary))'
-                    : undefined,
-
-            }}
-        >
+            bg__secondary rounded-full overflow-hidden disabled:cursor-not-allowed`}>
             {/* The Text: Uses motion.span for spring movement */}
             <motion.span
                 initial={false}

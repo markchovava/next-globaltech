@@ -1,112 +1,77 @@
 "use client"
 
 import { create } from "zustand";
-import { MetaEntity, MetaInterface, MetaLinksEntity, MetaLinksInterface, ResponseInterface } from "../entity/ResponseEntity";
-import { MessageEntity, MessageInterface } from "../entity/MessageEntity";
-import { _messageListAction, _messagePaginateAction, _messageSearchAction, _messageViewAction } from "../actions/MessageActions";
+import { EventEntity, EventInterface } from "../entity/EventEntity";
+import { ResponseInterface, MetaLinksEntity, MetaEntity, MetaLinksInterface, MetaInterface } from "../entity/ResponseEntity";
+import { _eventListAction, _eventPaginateAction, _eventSearchAction, _eventViewAction } from "../actions/EventActions";
 
 
-
-interface PropsInterface {
-    data: MessageInterface,
-    dataList: MessageInterface[],
+interface Props {
+    data: EventInterface,
+    preData: EventInterface,
+    isLoading: boolean,
+    search: string,
     meta: MetaInterface,
     links: MetaLinksInterface,
-    preData: MessageInterface,
-    errors: MessageInterface,
-    search: string,
-    isSearching: boolean,
-    message: string,
-    isLoading: boolean,
-    isSubmitting: boolean,
+    dataList: EventInterface[],
+    errors: EventInterface,
     toggleModal: boolean,
-    setDataListAll: (i: MessageInterface[]) => void,
+    isSearching: boolean,
+    isSubmitting: boolean,
     setIsLoading: (i: boolean) => void,
-    setDataList: (i: ResponseInterface) => void
-    setSearch: (e: React.ChangeEvent<HTMLInputElement>) => void,
-    setIsSearching: (i: boolean) => void,
     setToggleModal: (i: boolean) => void,
+    setDataList: (i: ResponseInterface) => void
+    setImage: (e: File) => void
+    setSearch: (e: React.ChangeEvent<HTMLInputElement>) => void
+    setIsSearching: (i: boolean) => void
     setInputValue: (
         e: React.ChangeEvent<HTMLInputElement> |
             React.ChangeEvent<HTMLTextAreaElement> |
-            React.ChangeEvent<HTMLSelectElement>
-    ) => void,
-    setError: (name: string, value: string) => void,
-    setValue: (name: string, value: string | number) => void,
-    setData: (i: MessageInterface) => void,
-    resetData: () => void,
-    setIsSubmitting: (i: boolean) => void,
-    setMessage: (i: string) => void,
-    clearErrors: () => void,
-    validateField: (name: string, value: string) => string,
-    validateForm: () => { isValid: boolean; errors: MessageInterface },
-    getData: (i: number | string) => Promise<void>,
-    getDataList: () => Promise<void>,
+            React.ChangeEvent<HTMLSelectElement> |
+        { target: { name: string; value: string } }
+    ) => void
+    setError: (name: string, value: string) => void
+    setData: (data: EventInterface) => void
+    resetData: () => void
+    setIsSubmitting: (i: boolean) => void
+    clearErrors: () => void
+    validateField: (name: string, value: string) => string
+    validateForm: () => { isValid: boolean; errors: EventInterface }
+    getData: (i: number | string) => Promise<void>
+    getDataList: () => Promise<void>
     getSearchDatalist: (search: string) => Promise<void>
     getPaginatedDatalist: (url: string) => Promise<void>
 }
 
 
-export const useMessageStore = create<PropsInterface>((set, get) => ({
-    data: MessageEntity,
-    dataList: [],
+export const useEventStore = create<Props>((set, get) => ({
+    data: EventEntity,
+    preData: EventEntity,
+    isLoading: false,
     meta: MetaEntity,
     links: MetaLinksEntity,
-    preData: MessageEntity,
-    errors: MessageEntity,
+    dataList: [],
+    event: '',
     search: '',
     isSearching: false,
-    message: '',
-    isLoading: true,
-    isSubmitting: false,
+    errors: EventEntity,
     toggleModal: false,
-    setDataListAll: (i) => {
+    isSubmitting: false,
+    setImage: (i) => {
+        const current = get().data
         set({
-            dataList: i,
-            isLoading: false,
-        })
-    },
-    setValue: (name, value) => {
-        const currentData = get().data;
-        const currentErrors = get().errors;
-        set({
-            data: { ...currentData, [name]: value },
-            // Clear error for this field if it exists
-            errors: currentErrors[name as keyof typeof currentErrors]
-                ? { ...currentErrors, [name]: "" }
-                : currentErrors
+            data: { ...current, imageUpload: i }
         })
     },
     setIsLoading: (i) => {
-        set({
-            isLoading: i
-        })
-    },
-    setDataList: (i) => {
-        const { data, links, meta } = i
-        set({
-            dataList: data,
-            meta: meta,
-            links: links,
-            isLoading: false,
-        })
-    },
-    setSearch: (e) => {
-        const { value } = e.target;
-        set({
-            search: value
-        })
-    },
-    setIsSearching: (i) => {
-        set({
-            isSearching: i
-        })
+        set({ isLoading: i })
     },
     setToggleModal: (i) => {
-        set({
-            toggleModal: i
-        })
+        set({ toggleModal: i })
     },
+    setDataList: (i) => { },
+    setSearch: (e) => { },
+    setIsSearching: (i) => { },
     setInputValue: (e) => {
         const { name, value } = e.target;
         const currentData = get().data;
@@ -116,78 +81,89 @@ export const useMessageStore = create<PropsInterface>((set, get) => ({
                 ...currentData,
                 [name]: value
             },
-            // Clear error for this field if it exists
-            errors: currentErrors[name as keyof typeof currentErrors]
-                ? { ...currentErrors, [name]: "" }
-                : currentErrors
+            errors: {
+                ...currentErrors,
+                [name]: ""
+            }
         });
     },
     setError: (name, value) => {
         const currentErrors = get().errors;
         set({
             errors: { ...currentErrors, [name]: value }
-        })
+        });
     },
     setData: (i) => {
-        //console.log('SetData', i)
         set({
-            data: i,
-            preData: i,
+            data: i ? i : EventEntity,
+            preData: i ? i : EventEntity,
             isLoading: false,
-        })
+        });
     },
     resetData: () => {
         set({
-            data: MessageEntity,
-        })
+            data: EventEntity,
+            preData: EventEntity,
+        });
     },
     setIsSubmitting: (i) => {
         set({
-            isSubmitting: i,
-        })
-    },
-    setMessage: (i) => {
-        set({
-            message: i
+            isSubmitting: i
         })
     },
     clearErrors: () => {
-        set({
-            errors: MessageEntity
-        })
+        set({ errors: EventEntity });
     },
     validateField: (name, value) => {
-        let error = ""
+        let error = "";
         switch (name) {
-            case "title":
-                if (!value.trim()) {
-                    error = "Title is required.";
+            case "name":
+                if (!value || !value.trim()) {
+                    error = "Name is required.";
                 }
                 break;
-            case "message":
-                if (!value.trim()) {
-                    error = "Message is required.";
+            case "date":
+                if (!value || !value.trim()) {
+                    error = "Date is required.";
+                }
+                break;
+            case "venue":
+                if (!value || !value.trim()) {
+                    error = "Venue is required.";
+                }
+                break;
+            case "status":
+                if (!value || !value.trim()) {
+                    error = "Status is required.";
                 }
                 break;
             default:
                 break;
         }
-        return error
+        return error;
     },
     validateForm: () => {
         const { data } = get();
-        let errors = { ...MessageEntity };
+        let errors = { ...EventEntity };
         let hasError = false;
-        // Validate TITLE
-        const titleError = get().validateField("title", data.title);
-        if (titleError) {
-            errors.title = titleError;
+        const nameError = get().validateField("name", data.name);
+        if (nameError) {
+            errors.name = nameError;
             hasError = true;
         }
-        // Validate MESSAGE
-        const messageError = get().validateField("message", data.message);
-        if (messageError) {
-            errors.message = messageError;
+        const dateError = get().validateField("date", data.date);
+        if (dateError) {
+            errors.date = dateError;
+            hasError = true;
+        }
+        const venueError = get().validateField("venue", data.venue);
+        if (venueError) {
+            errors.venue = venueError;
+            hasError = true;
+        }
+        const statusError = get().validateField("status", data.status);
+        if (statusError) {
+            errors.status = statusError;
             hasError = true;
         }
         set({ errors });
@@ -198,7 +174,7 @@ export const useMessageStore = create<PropsInterface>((set, get) => ({
     },
     getData: async (i) => {
         try {
-            const res = await _messageViewAction(i);
+            const res = await _eventViewAction(i);
             if (res && res.data) {
                 set({
                     data: res.data,
@@ -207,16 +183,16 @@ export const useMessageStore = create<PropsInterface>((set, get) => ({
                 });
             } else {
                 set({
-                    data: MessageEntity,
-                    preData: MessageEntity,
+                    data: EventEntity,
+                    preData: EventEntity,
                     isLoading: false,
                 });
             }
         } catch (error) {
             console.error(`Error: ${error}`);
             set({
-                data: MessageEntity,
-                preData: MessageEntity,
+                data: EventEntity,
+                preData: EventEntity,
                 isLoading: false,
             });
         }
@@ -224,7 +200,7 @@ export const useMessageStore = create<PropsInterface>((set, get) => ({
     getDataList: async () => {
         set({ isLoading: true });
         try {
-            const res = await _messageListAction();
+            const res = await _eventListAction();
             // Check if response has the expected structure
             if (res && res.data && res.meta && res.links) {
                 set({
@@ -255,7 +231,7 @@ export const useMessageStore = create<PropsInterface>((set, get) => ({
     getSearchDatalist: async (search) => {
         set({ isSearching: true });
         try {
-            const res = await _messageSearchAction(search);
+            const res = await _eventSearchAction(search);
             // Check if response has the expected structure
             if (res && res.data && res.meta && res.links) {
                 set({
@@ -286,7 +262,7 @@ export const useMessageStore = create<PropsInterface>((set, get) => ({
     getPaginatedDatalist: async (url: string) => {
         set({ isLoading: true });
         try {
-            const res = await _messagePaginateAction(url);
+            const res = await _eventPaginateAction(url);
             // Check if response has the expected structure
             if (res && res.data && res.meta && res.links) {
                 set({

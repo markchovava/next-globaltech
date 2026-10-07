@@ -166,14 +166,9 @@ export const useServiceStore = create<PropInterface>((set, get) => ({
                     error = "Name is required.";
                 }
                 break;
-            case "status":
+            case "desc":
                 if (!value.trim()) {
-                    error = "Status is required.";
-                }
-                break;
-            case "description":
-                if (!value.trim()) {
-                    error = "Description is required.";
+                    error = "desc is required.";
                 }
                 break;
             default:
@@ -191,16 +186,10 @@ export const useServiceStore = create<PropInterface>((set, get) => ({
             errors.name = nameError;
             hasError = true;
         }
-        // Validate STATUS
-        const statusError = get().validateField("status", data.status);
-        if (statusError) {
-            errors.status = statusError;
-            hasError = true;
-        }
-        // Validate DESCRIPTION
-        const descriptionError = get().validateField("description", data.description);
-        if (descriptionError) {
-            errors.description = descriptionError;
+        // Validate desc
+        const descError = get().validateField("desc", data.desc);
+        if (descError) {
+            errors.desc = descError;
             hasError = true;
         }
 

@@ -9,6 +9,8 @@ import { useAppInfoStore } from '../../_data/store/useAppInfoStore'
 import { useEffect } from 'react'
 import LoaderPrimary from '../../_components/loaders/LoaderPrimary'
 import { valueWithFallback } from '@/_utils/StringManipulation'
+import { baseURL } from "@/_api/baseURL";
+
 
 
 const title = "App Information"
@@ -25,7 +27,12 @@ export default function AppInfoPage({ dbData }: Props) {
 
 
   useEffect(() => {
-    setData(dbData?.data)
+    setData({
+      ...dbData?.data,
+      image: dbData?.data?.image
+        ? baseURL + dbData?.data?.image
+        : ''
+    })
   }, [dbData?.data, setData])
 
   const handleToggleModal = () => {
@@ -48,7 +55,6 @@ export default function AppInfoPage({ dbData }: Props) {
       </section>
 
       <DataMainArea />
-
       <SpacerDefault />
     </>
   )
@@ -72,8 +78,9 @@ function DataMainArea() {
 
   return (
     <section className='container__primary bg-white drop-shadow-lg rounded-lg p-6 space-y-4'>
-
-      <RecordImage label='Image' value={preData.image} />
+      {preData.image &&
+        <RecordImage label='Image' value={preData.image} />
+      }
       <RecordDefault label='Name' value={valueWithFallback(preData.name)} />
       <RecordDefault label='Email' value={valueWithFallback(preData.email)} />
       <RecordDefault label='Address' value={valueWithFallback(preData.address)} />

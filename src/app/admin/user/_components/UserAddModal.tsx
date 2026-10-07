@@ -176,7 +176,7 @@ export default function UserAddModal() {
                                 />
                                 <SpacerPrimary />
 
-                                <SelectAdminDefault
+                                {/*  <SelectAdminDefault
                                     label='Role Level'
                                     name='roleLevel'
                                     data={RoleLevelData}
@@ -184,7 +184,7 @@ export default function UserAddModal() {
                                     onChange={setInputValue}
                                     error={errors.roleLevel.toString()}
                                 />
-                                <SpacerPrimary />
+                                <SpacerPrimary /> */}
 
                                 <SelectAdminDefault
                                     label='Admin'

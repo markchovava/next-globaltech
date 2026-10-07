@@ -108,8 +108,8 @@ import { PiMapPinAreaBold } from "react-icons/pi";
 import { GrGroup } from "react-icons/gr";
 import { MdLockPerson } from "react-icons/md";
 import { GoTrophy } from "react-icons/go";
-
-
+import { FaRegImage } from "react-icons/fa6";
+import { PiNewspaperClipping } from "react-icons/pi";
 
 interface PropsInterface {
     type: string
@@ -122,6 +122,11 @@ export default function IconDefault({
 }: PropsInterface) {
 
     switch (type) {
+
+        case 'image':
+            return <FaRegImage className={css} />
+        case 'newspaper':
+            return <PiNewspaperClipping className={css} />
         case 'briefcase':
             return <LuBriefcaseBusiness className={css} />
         case 'quality':

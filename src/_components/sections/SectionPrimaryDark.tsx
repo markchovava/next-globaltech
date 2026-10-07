@@ -9,6 +9,7 @@ import { NoImageData } from '@/_data/sample/NoImage'
 import { ReactNode } from 'react'
 import Image from 'next/image'
 import { AppInfoData } from '@/_data/sample/AppinfoData'
+import ButtonSecondary from '../buttons/ButtonSecondary'
 
 
 
@@ -38,7 +39,7 @@ export default function SectionPrimaryDark({
 
     return (
         <>
-            <section className="relative bg-cyan-800 text-neutral-100 overflow-hidden">
+            <section className="relative bg__primary text-neutral-100 overflow-hidden">
 
                 {/* Ambient grain texture */}
                 <div
@@ -141,7 +142,7 @@ export default function SectionPrimaryDark({
                         {btnName &&
                             <div>
                                 <Link href={href}>
-                                    <Button
+                                    <ButtonSecondary
                                         name={btnName}
                                         css="text-lg py-3 px-9 text-white"
                                     />

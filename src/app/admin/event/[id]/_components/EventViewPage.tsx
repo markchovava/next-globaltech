@@ -10,22 +10,21 @@ import { valueWithFallback } from '@/_utils/StringManipulation'
 import LoaderPrimary from '@/app/admin/_components/loaders/LoaderPrimary'
 import { formatDate } from '@/_utils/formatDate'
 import { useEffect } from 'react'
-import { useServiceStore } from '@/app/admin/_data/store/useServiceStore'
-import StickerOne from '@/app/admin/_components/stickers/StickerOne'
+import { useEventStore } from '@/app/admin/_data/store/useEventStore'
 import { baseURL } from '@/_api/baseURL'
 import HtmlViewer from '@/app/admin/_components/viewers/HtmlViewer'
 
 
 
-const title = "View Service"
+const title = "View Event"
 
 
 interface Props {
   dbData: any
 }
 
-export default function ServiceViewPage({ dbData }: Props) {
-  const { data, setData, setToggleModal } = useServiceStore()
+export default function EventViewPage({ dbData }: Props) {
+  const { data, setData, setToggleModal } = useEventStore()
 
   console.log('dbData', dbData)
 
@@ -71,7 +70,7 @@ export default function ServiceViewPage({ dbData }: Props) {
 
 
 function DataMainArea() {
-  const { preData, isLoading } = useServiceStore()
+  const { preData, isLoading } = useEventStore()
 
   const updated = preData.updatedAt ? formatDate(preData.updatedAt) : 'Not Added yet.'
   const user = preData?.user?.name ? preData?.user?.name : preData?.user?.email

@@ -94,10 +94,10 @@ export default function BannerMain({ image }: Props) {
                 >
                     <motion.h1
                         variants={item}
-                        className="mb-4 font-serif text-4xl leading-tight sm:text-5xl"
+                        className="mb-4 font-serif text-4xl leading-tight sm:text-5xl text-cyan-600"
                     >
                         Welcome to{" "}
-                        <span className="block min-h-[1.2em] text-cyan-400">
+                        <span className="block min-h-[1.2em] text-white">
                             <Typewriter words={AppInfoData.phrases} />
                         </span>
                     </motion.h1>

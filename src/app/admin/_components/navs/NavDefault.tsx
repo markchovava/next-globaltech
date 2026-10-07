@@ -9,12 +9,14 @@ import { useRouter } from "next/navigation"
 import { useAuthStore } from "../../(auth)/_store/useAuthStore"
 import { toast } from "react-toastify"
 
+
+
 export default function NavDefault() {
     const router = useRouter()
-    const { 
-        isSubmitting, 
-        resetData, 
-        setAuthToken, 
+    const {
+        isSubmitting,
+        resetData,
+        setAuthToken,
         setIsSubmitting,
     } = useAuthStore()
     const [openIndex, setOpenIndex] = useState<number | null>(null)
@@ -29,22 +31,22 @@ export default function NavDefault() {
 
 
     const handleLogout = async () => {
-        if(isSubmitting) {
+        if (isSubmitting) {
             return
         }
 
         setIsSubmitting(true)
         try {
             const res = await _logoutAction();
-            console.log('LOGOUT res:: ', res)
-            const {message, status} = res
-            switch(status){
+            // console.log('LOGOUT res:: ', res)
+            const { message, status } = res
+            switch (status) {
                 case 1:
                     await removeTheCookie(AuthTokenCookieName)
                     await removeTheCookie(UserCookieName)
                     setAuthToken("")
                     resetData()
-                    router.replace('/admin/login')
+                    router.push('/admin/login')
                     toast.success(message)
                     return
                 default:
@@ -54,7 +56,7 @@ export default function NavDefault() {
         } catch (error) {
             toast.error('Failed to logout. Please try again.');
             console.error('Logout error:', error);
-        } finally{
+        } finally {
             setIsSubmitting(false)
         }
     }
@@ -97,7 +99,7 @@ export default function NavDefault() {
                 </li>
             ))}
 
-            
+
         </ul>
     )
 }

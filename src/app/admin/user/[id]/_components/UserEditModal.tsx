@@ -79,7 +79,7 @@ export default function UserEditModal({ id }: PropInterface) {
             phone: data.phone,
             address: data.address,
             isAdmin: data.isAdmin,
-            roleLevel: data.roleLevel,
+            /* roleLevel: data.roleLevel, */
         }
         try {
             const res = await _userUpdateAction(id, formData);
@@ -124,7 +124,7 @@ export default function UserEditModal({ id }: PropInterface) {
             name: data.name,
             phone: data.phone,
             email: data.phone,
-            roleLevel: data.roleLevel,
+            /* roleLevel: data.roleLevel, */
             isAdmin: data.isAdmin,
             address: data.address,
         }
@@ -218,7 +218,7 @@ export default function UserEditModal({ id }: PropInterface) {
                                 />
                                 <SpacerPrimary />
 
-                                <SelectAdminDefault
+                                {/* <SelectAdminDefault
                                     label='Role Level'
                                     name='roleLevel'
                                     data={RoleLevelData}
@@ -226,7 +226,7 @@ export default function UserEditModal({ id }: PropInterface) {
                                     onChange={setInputValue}
                                     error={errors.roleLevel.toString()}
                                 />
-                                <SpacerPrimary />
+                                <SpacerPrimary /> */}
 
                                 <SelectAdminDefault
                                     label='Admin'

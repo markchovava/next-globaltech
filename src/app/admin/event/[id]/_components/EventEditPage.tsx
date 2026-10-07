@@ -10,15 +10,15 @@ import SelectAdminDefault from '@/app/admin/_components/forms/selects/SelectAdmi
 import { ButtonAdminSubmit } from '@/app/admin/_components/buttons/ButtonAdminSubmit';
 import { toast } from 'react-toastify';
 import ImageInputDefault from '@/app/admin/_components/forms/image/ImageInputDefault';
-import { _serviceUpdateAction } from '../../../_data/actions/ServiceActions';
-import { useServiceStore } from '@/app/admin/_data/store/useServiceStore';
+import { _eventUpdateAction } from '../../../_data/actions/EventActions';
+import { useEventStore } from '@/app/admin/_data/store/useEventStore';
 import { listNumbers } from '@/_utils/formatNumber';
 import RichTextEditor from '@/app/admin/_components/forms/editors/RichTextEditor';
 
 
 
 
-const title = "Edit Service"
+const title = "Edit Event"
 const errorMessage = "Something went wrong, please try again."
 
 const variants: Variants = {
@@ -38,7 +38,7 @@ interface PropInterface {
 }
 
 
-export default function ServiceEditModal({ id }: PropInterface) {
+export default function EventEditModal({ id }: PropInterface) {
     const {
         data,
         errors,
@@ -51,7 +51,7 @@ export default function ServiceEditModal({ id }: PropInterface) {
         clearErrors,
         setIsSubmitting,
         validateForm,
-    } = useServiceStore()
+    } = useEventStore()
 
     const handleToggleModal = () => {
         setToggleModal(!toggleModal)
@@ -81,7 +81,7 @@ export default function ServiceEditModal({ id }: PropInterface) {
         }
 
         try {
-            const res = await _serviceUpdateAction(id, formData);
+            const res = await _eventUpdateAction(id, formData);
             const { status, message } = res;
             switch (status) {
                 case 1:

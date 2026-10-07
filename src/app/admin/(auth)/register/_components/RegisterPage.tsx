@@ -18,14 +18,16 @@ import { error } from "console"
 
 const title = "Register"
 
+const errorMessage = 'Something went wrong, please try again.'
+
 
 export default function RegisterPage() {
     const router = useRouter()
     const {
-        data, 
-        isSubmitting, 
+        data,
+        isSubmitting,
         errors,
-        setInputValue, 
+        setInputValue,
         resetData,
         clearErrors,
         setIsSubmitting,
@@ -47,7 +49,7 @@ export default function RegisterPage() {
         const validation = validateRegisterForm();
         if (!validation.isValid) {
             // Show the first error as toast
-            const firstError = validation.errors.email || 
+            const firstError = validation.errors.email ||
                 validation.errors.password ||
                 validation.errors.passwordConfirm
             toast.warn(firstError);
@@ -60,8 +62,8 @@ export default function RegisterPage() {
         }
         try {
             const res = await registerAction(formData);
-            const {message, status} = res;
-            switch(status){
+            const { message, status } = res;
+            switch (status) {
                 case 1:
                     toast.success(message);
                     clearErrors();
@@ -79,77 +81,79 @@ export default function RegisterPage() {
                     return
             }
         } catch (error) {
-            toast.error('Failed to save data. Please try again.');
+            toast.error(errorMessage);
             console.error('Form submission error:', error);
-        } 
+            setIsSubmitting(false);
+            return
+        }
     }
 
 
-  return (
-    <>
-     <section className='mx-auto lg:w-[50%] w-[86%] mt-16 mb-20 py-8 px-5 bg-white drop-shadow-lg rounded-lg'> 
-        <div className="flex items-center justify-center">
-            <LogoAdmin />
-        </div>
-        <SpacerPrimary />
-        <hr className="w-full border-b border-gray-100" />
-        <SpacerPrimary />
-        <HeadingSecondary title={title} css='text-center' />
-        <SpacerPrimary />
+    return (
+        <>
+            <section className='mx-auto lg:w-[50%] w-[86%] mt-16 mb-20 py-8 px-5 bg-white drop-shadow-lg rounded-lg'>
+                <div className="flex items-center justify-center">
+                    <LogoAdmin />
+                </div>
+                <SpacerPrimary />
+                <hr className="w-full border-b border-gray-100" />
+                <SpacerPrimary />
+                <HeadingSecondary title={title} css='text-center' />
+                <SpacerPrimary />
 
-        <form onSubmit={handleSubmit}> 
-            <TextInputDefault
-                label='Email' 
-                name='email' 
-                type="text"
-                value={data.email} 
-                placeholder='Enter Email here.'
-                onChange={setInputValue} 
-                error={errors.email}
-            />
-            <SpacerPrimary />
+                <form onSubmit={handleSubmit}>
+                    <TextInputDefault
+                        label='Email'
+                        name='email'
+                        type="text"
+                        value={data.email}
+                        placeholder='Enter Email here.'
+                        onChange={setInputValue}
+                        error={errors.email}
+                    />
+                    <SpacerPrimary />
 
-            <TextInputPassword 
-                label="Password" 
-                placeholder="Enter Password here."
-                name="password" 
-                value={data.password} 
-                onChange={setInputValue} 
-                error={errors.password}
-            />
-            <SpacerPrimary />
+                    <TextInputPassword
+                        label="Password"
+                        placeholder="Enter Password here."
+                        name="password"
+                        value={data.password}
+                        onChange={setInputValue}
+                        error={errors.password}
+                    />
+                    <SpacerPrimary />
 
-            <TextInputPassword 
-                label="Confirm Password" 
-                placeholder="Enter Password here."
-                name="passwordConfirm" 
-                value={data.passwordConfirm} 
-                onChange={setInputValue} 
-                error={errors.passwordConfirm}
-            />
-            <SpacerPrimary />
-            <SpacerPrimary />
+                    <TextInputPassword
+                        label="Confirm Password"
+                        placeholder="Enter Password here."
+                        name="passwordConfirm"
+                        value={data.passwordConfirm}
+                        onChange={setInputValue}
+                        error={errors.passwordConfirm}
+                    />
+                    <SpacerPrimary />
+                    <SpacerPrimary />
 
-            <div className='flex items-center justify-center'>
-                <ButtonAdminSubmit
-                    title='Submit' 
-                    css='px-12 text-white py-4' 
-                    status={isSubmitting} 
-                />
-            </div>
-            <SpacerPrimary />
+                    <div className='flex items-center justify-center'>
+                        <ButtonAdminSubmit
+                            title='Submit'
+                            css='px-12 text-white py-4'
+                            status={isSubmitting}
+                        />
+                    </div>
+                    <SpacerPrimary />
 
-        </form>
-         
-        <p className="text-sm text-center text-gray-800">
-            Alright have an account? 
-            <Link href="/admin/login" className="underline hover:no-underline ml-1">Login here.</Link>
-        </p>
-        <SpacerPrimary />
+                </form>
 
-       
-        
-    </section>
-    </>
-  )
+                <p className="text-sm text-center text-gray-800">
+                    Alright have an account?
+                    <Link href="/admin/login" className="underline hover:no-underline ml-1">Login here.</Link>
+                </p>
+                <SpacerPrimary />
+
+
+
+            </section>
+        </>
+    )
 }

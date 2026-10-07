@@ -112,7 +112,7 @@ export default function SectionPrimary({
                                     bg-white/90 backdrop-blur-sm rounded-full px-4 py-2 shadow-lg 
                                     flex items-center gap-2`}
                             >
-                                <span className="h-2 w-2 rounded-full bg-amber-900 animate-pulse" />
+                                <span className="h-2 w-2 rounded-full bg__primary animate-pulse" />
                                 <span className="text-xs font-semibold tracking-wide text-brown-950 uppercase">
                                     {AppInfoData.name}
                                 </span>
@@ -167,7 +167,7 @@ export default function SectionPrimary({
 function BottomContent() {
 
     return (
-        <div className='w-full grid-cols-2 grid gap-3 text-amber-950'>
+        <div className='w-full grid-cols-2 grid gap-3 text__primary'>
             <div className='border-r border-gray-300'>
                 <p className='text-sm'>
                     {AppInfoData.name}
@@ -177,7 +177,7 @@ function BottomContent() {
                 </p>
             </div>
             <div className='flex justify-start gap-2'>
-                <div className={`flex items-center justify-center h-14 w-14 bg-amber-900 text-white rounded-full overflow-hidden`}>
+                <div className={`flex items-center justify-center h-14 w-14 bg__primary text-white rounded-full overflow-hidden`}>
                     <IconDefault
                         type='phone'
                         css='lg:text-xl text-lg'

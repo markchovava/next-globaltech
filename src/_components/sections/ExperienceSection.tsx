@@ -53,7 +53,7 @@ export default function ExperienceSection() {
                     initial="hidden"
                     whileInView="show"
                     viewport={{ once: true, amount: 0.3 }}
-                    className="relative mx-auto grid container__primary grid-cols-1 divide-y divide-white/15 overflow-hidden rounded-2xl bg-cyan-700 shadow-xl sm:grid-cols-3 sm:divide-x sm:divide-y-0 lg:w-[80%]"
+                    className="relative mx-auto grid container__primary grid-cols-1 divide-y divide-white/15 overflow-hidden rounded-2xl bg__primary shadow-xl sm:grid-cols-3 sm:divide-x sm:divide-y-0 lg:w-[80%]"
                 >
                     {/* Soft light in the corner, purely decorative */}
                     <div

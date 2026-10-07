@@ -166,6 +166,22 @@ export async function _messageUpdateAction(id: string | number, data: Record<str
   return await res.json();
 }
 
+export async function _messageStatusUpdateAction(id: string | number, data: Record<string, any>) {
+  const authHeader = await getAuthHeaders();
+  const res = await fetch(`${baseURL}api/message-status/${id}`, {
+    method: 'POST',
+    body: JSON.stringify(data),
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      ...authHeader,
+    }
+  });
+  revalidatePath(`/admin/message/${id}`);
+  revalidatePath('/admin/message'); // Additionally clearing container list to display update changes immediately
+  return await res.json();
+}
+
 export async function _messageDeleteAction(id: number | string) {
   const authHeader = await getAuthHeaders();
   const res = await fetch(`${baseURL}api/message/${id}`, {

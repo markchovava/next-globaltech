@@ -1,6 +1,6 @@
 "use client"
 import Link from 'next/link'
-import ButtonTwo from '../buttons/ButtonTwo'
+import ButtonTwo from '../buttons/ButtonSecondary'
 import Heading1 from '../headings/Heading1'
 
 

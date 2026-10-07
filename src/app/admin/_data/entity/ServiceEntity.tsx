@@ -7,7 +7,7 @@ export interface ServiceInterface {
     priority: string | number
     name: string
     status: string
-    description: string
+    desc: string
     image: string
     imageUpload: File | null
     createdAt: string
@@ -21,7 +21,7 @@ export const ServiceEntity: ServiceInterface = {
     userId: "",
     name: "",
     status: "",
-    description: "",
+    desc: "",
     image: "",
     imageUpload: null,
     priority: "",

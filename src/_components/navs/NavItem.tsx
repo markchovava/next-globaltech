@@ -26,8 +26,7 @@ export default function NavItem({ name, href }: Props) {
                 className={`${MontserratRegular.className} group relative block py-2 text-sm font-semibold uppercase tracking-wide
                     transition-colors duration-200
                     focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-600
-                    ${active ? "text-cyan-700" : "text-gray-900 hover:text-cyan-600"}`}
-            >
+                    ${active ? "text__primary" : "text-gray-900 hover:text__primary"}`} >
                 {name}
 
                 {/* Hover underline (inactive items) */}

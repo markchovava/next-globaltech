@@ -1,25 +1,26 @@
 "use client"
 
-import React from 'react'
+import React, { useEffect } from 'react'
 import { AnimatePresence, motion, Variants } from 'framer-motion';
-import ButtonAdminClose from '@/app/admin/_components/buttons/ButtonAdminClose';
-import HeadingSecondary from '@/app/admin/_components/headings/HeadingSecondary';
-import SpacerPrimary from '@/_components/spacers/SpacerPrimary';
-import TextInputDefault from '@/app/admin/_components/forms/inputs/TextInputDefault';
-import SelectAdminDefault from '@/app/admin/_components/forms/selects/SelectAdminDefault';
-import { ButtonAdminSubmit } from '@/app/admin/_components/buttons/ButtonAdminSubmit';
 import { toast } from 'react-toastify';
-import ImageInputDefault from '@/app/admin/_components/forms/image/ImageInputDefault';
-import { _serviceUpdateAction } from '../../../_data/actions/ServiceActions';
-import { useServiceStore } from '@/app/admin/_data/store/useServiceStore';
+import ButtonAdminClose from '../../_components/buttons/ButtonAdminClose';
+import SpacerPrimary from '@/_components/spacers/SpacerPrimary';
+import HeadingSecondary from '../../_components/headings/HeadingSecondary';
+import TextInputDefault from '../../_components/forms/inputs/TextInputDefault';
+import { ButtonAdminSubmit } from '../../_components/buttons/ButtonAdminSubmit';
+import SelectAdminDefault from '../../_components/forms/selects/SelectAdminDefault';
+import ImageInputDefault from '../../_components/forms/image/ImageInputDefault';
+import { _eventStoreAction } from '../../_data/actions/EventActions';
+import { useEventStore } from '../../_data/store/useEventStore';
 import { listNumbers } from '@/_utils/formatNumber';
-import RichTextEditor from '@/app/admin/_components/forms/editors/RichTextEditor';
+import TextArea from '@/_components/forms/textareas/TextArea';
+import { StatusPubData } from '@/_data/sample/StatusData';
+import RichTextEditor from '../../_components/forms/editors/RichTextEditor';
 
 
 
-
-const title = "Edit Service"
-const errorMessage = "Something went wrong, please try again."
+const title = "Add Event"
+const ERROR_MESSAGE = "Something went wrong, please try again."
 
 const variants: Variants = {
     hidden: { opacity: 0 },
@@ -33,25 +34,25 @@ const variants: Variants = {
 }
 
 
-interface PropInterface {
-    id: string | number
-}
-
-
-export default function ServiceEditModal({ id }: PropInterface) {
+export default function EventAddModal() {
     const {
         data,
         errors,
         toggleModal,
         isSubmitting,
-        getData,
+        getDataList,
+        resetData,
         setImage,
         setInputValue,
         setToggleModal,
         clearErrors,
         setIsSubmitting,
         validateForm,
-    } = useServiceStore()
+    } = useEventStore()
+
+    useEffect(() => {
+        resetData()
+    }, [resetData])
 
     const handleToggleModal = () => {
         setToggleModal(!toggleModal)
@@ -81,25 +82,31 @@ export default function ServiceEditModal({ id }: PropInterface) {
         }
 
         try {
-            const res = await _serviceUpdateAction(id, formData);
+            const res = await _eventStoreAction(formData);
             const { status, message } = res;
             switch (status) {
                 case 1:
-                    await getData(id);
+                    await getDataList();
                     clearErrors();
+                    resetData();
                     setIsSubmitting(false);
                     setToggleModal(false)
                     toast.success(message);
                     return
+                case 0:
+                    setIsSubmitting(false);
+                    toast.warn(message)
+                    return
                 default:
-                    toast.success('Something went wrong, please try again.');
+                    toast.warn(ERROR_MESSAGE);
                     setIsSubmitting(false);
                     return
             }
         } catch (error) {
-            toast.error('Failed to save data. Please try again.');
             console.error('Form submission error:', error);
+            toast.error(ERROR_MESSAGE);
             setIsSubmitting(false);
+            return
         }
     }
 
@@ -148,11 +155,12 @@ export default function ServiceEditModal({ id }: PropInterface) {
                                 />
                                 <SpacerPrimary />
 
+
                                 <RichTextEditor
-                                    label="Description"
+                                    label="desc"
                                     name="desc"
                                     value={data.desc}
-                                    placeholder="Enter your Description..."
+                                    placeholder="Enter your desc..."
                                     onChange={setInputValue}
                                     error={errors.desc}
                                 />

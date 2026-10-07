@@ -14,8 +14,8 @@ import PlaceholderDefault from '../../_components/placeholders/PlaceholderDefaul
 import LoaderPrimary from '../../_components/loaders/LoaderPrimary'
 import { toast } from 'react-toastify'
 import { valueWithFallback } from '@/_utils/StringManipulation'
-import { _serviceDeleteAction } from '../../_data/actions/ServiceActions'
-import { useServiceStore } from '../../_data/store/useServiceStore'
+import { _eventDeleteAction } from '../../_data/actions/EventActions'
+import { useEventStore } from '../../_data/store/useEventStore'
 import StickerOne from '../../_components/stickers/StickerOne'
 
 
@@ -25,7 +25,7 @@ interface Props {
     dbData: any
 }
 
-export default function ServicePage({
+export default function EventPage({
     dbData }: Props
 ) {
     const {
@@ -39,7 +39,7 @@ export default function ServicePage({
         links,
         getSearchDatalist,
         getPaginatedDatalist,
-    } = useServiceStore()
+    } = useEventStore()
 
     useEffect(() => {
         // Call setData even if dbData.data is null 
@@ -67,7 +67,7 @@ export default function ServicePage({
     return (
         <>
             <SpacerDefault />
-            <HeadingDefault title="Services" />
+            <HeadingDefault title="Events" />
             <SpacerPrimary />
 
             <section className='container__primary bg-white drop-shadow-lg rounded-lg px-5 py-3 flex items-center justify-between'>
@@ -105,21 +105,18 @@ export default function ServicePage({
 }
 
 
-
-
-
 function MainDataArea() {
     const {
         isLoading,
         dataList,
         setIsLoading,
         getDataList
-    } = useServiceStore()
+    } = useEventStore()
 
     async function handleDelete(id: string | number) {
         setIsLoading(true)
         try {
-            const res = await _serviceDeleteAction(id)
+            const res = await _eventDeleteAction(id)
             const { data, status, message } = res
             if (status === 1) {
                 toast.success(message)
@@ -169,7 +166,7 @@ function MainDataArea() {
                             </div>
                             <div className='w-[10%] px-4 py-3 '>
                                 <ActionButtons
-                                    viewHref={`/admin/service/${i.id}`}
+                                    viewHref={`/admin/event/${i.id}`}
                                     onDelete={() => handleDelete(i.id)} />
                             </div>
                         </div>
@@ -191,7 +188,7 @@ function MainDataArea() {
                                     <p>{valueWithFallback(i.name)}</p>
                                 </div>
                                 <ActionButtons
-                                    viewHref={`/admin/service/${i.id}`}
+                                    viewHref={`/admin/event/${i.id}`}
                                     onDelete={() => handleDelete(i.id)} />
                             </div>
                             <div className=''>

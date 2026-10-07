@@ -30,6 +30,13 @@ const variants: Variants = {
     },
 }
 
+const TEXT_FIELDS = [
+    'name', 'phone', 'email', 'website', 'address', 'description',
+    'whatsapp', 'facebook', 'instagram', 'tiktok', 'linkedin', 'twitter',
+] as const;
+
+const ERROR_PRIORITY = ['name', 'phone', 'email', 'website', 'address'] as const;
+
 
 export default function AppInfoEditModal() {
     const {
@@ -51,57 +58,38 @@ export default function AppInfoEditModal() {
     }
 
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-        clearErrors();
         e.preventDefault();
-        // Validate form using store
-        const validation = validateForm();
-        if (!validation.isValid) {
-            // Show the first error as toast
-            const firstError = validation.errors.name ||
-                validation.errors.phone ||
-                validation.errors.email ||
-                validation.errors.website ||
-                validation.errors.address;
-            toast.warn(firstError);
+        clearErrors();
+
+        const { isValid, errors } = validateForm();
+        if (!isValid) {
+            const firstError = ERROR_PRIORITY.map((key) => errors[key]).find(Boolean);
+            toast.warn(firstError ?? 'Please check the form and try again.');
             return;
         }
-        setIsSubmitting(true);
-        const formData = new FormData()
-        formData.append('name', data.name ?? '');
-        formData.append('phone', data.phone ?? '');
-        formData.append('email', data.email ?? '');
-        formData.append('website', data.website ?? '');
-        formData.append('address', data.address ?? '');
-        formData.append('description', data.description ?? '');
-        formData.append('whatsapp', data.whatsapp ?? '');
-        formData.append('facebook', data.facebook ?? '');
-        formData.append('instagram', data.instagram ?? '');
-        formData.append('tiktok', data.tiktok ?? '');
-        formData.append('linkedin', data.linkedin ?? '');
-        formData.append('twitter', data.twitter ?? '');
+
+        const formData = new FormData();
+        TEXT_FIELDS.forEach((field) => formData.append(field, data[field] ?? ''));
         if (data.imageUpload) {
-            formData.append('image', data.imageUpload)
+            formData.append('image', data.imageUpload);
         }
+
+        setIsSubmitting(true);
         try {
-            const res = await _appInfoStoreAction(formData);
-            //console.log('res _appInfoStoreAction', res)
-            const { status, message, data } = res
-            switch (status) {
-                case 1:
-                    toast.success(message);
-                    clearErrors();
-                    setIsSubmitting(false);
-                    await getData();
-                    setToggleModal(false)
-                    return
-                default:
-                    toast.success('Something went wrong, please try again.');
-                    setIsSubmitting(false);
-                    return
+            const { status, message } = await _appInfoStoreAction(formData);
+
+            if (status !== 1) {
+                toast.error(message || 'Something went wrong, please try again.');
+                return;
             }
+
+            toast.success(message);
+            await getData();
+            setToggleModal(false);
         } catch (error) {
-            toast.error('Failed to save data. Please try again.');
             console.error('Form submission error:', error);
+            toast.error('Failed to save data. Please try again.');
+        } finally {
             setIsSubmitting(false);
         }
     }
@@ -128,7 +116,7 @@ export default function AppInfoEditModal() {
                                 <SpacerPrimary />
                                 <hr className="w-full border-b border-gray-100" />
                                 <SpacerPrimary />
-                                {/*  <div className='w-[30%]'>
+                                <div className='w-[30%]'>
                                     <ImageInputDefault
                                         label='Image'
                                         name='name'
@@ -136,9 +124,8 @@ export default function AppInfoEditModal() {
                                         onChange={(e) => setImage(e)}
                                         error={errors.image}
                                     />
-
                                 </div>
-                                <SpacerPrimary /> */}
+                                <SpacerPrimary />
 
                                 <TextInputDefault
                                     label='Name'

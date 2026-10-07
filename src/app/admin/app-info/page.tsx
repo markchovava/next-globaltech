@@ -5,9 +5,11 @@ import { _appInfoViewAction } from "../_data/actions/AppInfoActions"
 
 
 
+const title = 'App Information'
+
 const CrumbsData = [
   { id: 1, name: 'Admin', href: '/admin' },
-  { id: 3, name: 'App Information', href: '/admin/app-info' },
+  { id: 3, name: title, href: '/admin/app-info' },
 ]
 
 

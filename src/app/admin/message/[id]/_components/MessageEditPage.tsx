@@ -12,12 +12,14 @@ import { ButtonAdminSubmit } from '@/app/admin/_components/buttons/ButtonAdminSu
 import { toast } from 'react-toastify';
 import TextAreaInputDefault from '@/app/admin/_components/forms/textareas/TextAreaInputDefault';
 import { MessageStatusData } from '../../../_data/sample/MessageData';
-import { _messageUpdateAction } from '../../../_data/actions/MessageActions';
+import { _messageStatusUpdateAction, _messageUpdateAction } from '../../../_data/actions/MessageActions';
 
 
 
 
 const title = "Edit Message"
+
+const ERROR_MESSAGE = "Something went wrong, please try again."
 
 
 const variants: Variants = {
@@ -60,22 +62,23 @@ export default function MessageEditModal({ id }: PropInterface) {
         e.preventDefault();
         // Validate form using store
         const validation = validateForm();
-        if (!validation.isValid) {
+        /* if (!validation.isValid) {
             // Show the first error as toast
-            const firstError = validation.errors.title ||
+            const firstError = validation.errors.status ||
                 validation.errors.message
             toast.warn(firstError);
             return;
-        }
+        } */
         setIsSubmitting(true);
         const formData = {
-            title: data.title,
             status: data.status,
+            /* title: data.title,
             email: data.email,
-            message: data.message,
+            message: data.message, */
         }
         try {
-            const res = await _messageUpdateAction(id, formData);
+            const res = await _messageStatusUpdateAction(id, formData);
+            console.log('response::;', res)
             const { status, message } = res;
             switch (status) {
                 case 1:
@@ -86,13 +89,15 @@ export default function MessageEditModal({ id }: PropInterface) {
                     setToggleModal(false)
                     return
                 default:
-                    toast.success('Something went wrong, please try again.');
+                    toast.warn(ERROR_MESSAGE);
                     setIsSubmitting(false);
                     return
             }
         } catch (error) {
-            toast.error('Failed to save data. Please try again.');
+            toast.error(ERROR_MESSAGE);
             console.error('Form submission error:', error);
+            setIsSubmitting(false);
+            return
         }
     }
 
@@ -119,7 +124,7 @@ export default function MessageEditModal({ id }: PropInterface) {
                                 <hr className="w-full border-b border-gray-100" />
                                 <SpacerPrimary />
 
-                                <TextInputDefault
+                                {/* <TextInputDefault
                                     label='Title'
                                     name='title'
                                     type="text"
@@ -128,9 +133,9 @@ export default function MessageEditModal({ id }: PropInterface) {
                                     onChange={setInputValue}
                                     error={errors.title}
                                 />
-                                <SpacerPrimary />
+                                <SpacerPrimary /> */}
 
-                                <TextAreaInputDefault
+                                {/* <TextAreaInputDefault
                                     label='Message:'
                                     name='message'
                                     value={data.message}
@@ -150,6 +155,7 @@ export default function MessageEditModal({ id }: PropInterface) {
                                     error={errors.email}
                                 />
                                 <SpacerPrimary />
+                                */}
 
                                 <SelectAdminDefault
                                     label='Status'

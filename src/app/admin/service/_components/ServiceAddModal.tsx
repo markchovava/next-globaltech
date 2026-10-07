@@ -20,7 +20,7 @@ import RichTextEditor from '../../_components/forms/editors/RichTextEditor';
 
 
 const title = "Add Service"
-
+const ERROR_MESSAGE = "Something went wrong, please try again."
 
 const variants: Variants = {
     hidden: { opacity: 0 },
@@ -67,8 +67,7 @@ export default function ServiceAddModal() {
             // Show the first error as toast
             const firstError =
                 validation.errors.name ||
-                validation.errors.status ||
-                validation.errors.description;
+                validation.errors.desc;
             toast.warn(firstError);
             return;
         }
@@ -77,15 +76,13 @@ export default function ServiceAddModal() {
         const formData = new FormData()
         formData.append('name', data.name ?? '')
         formData.append('priority', data.priority.toString() ?? '')
-        formData.append('status', data.status ?? '')
-        formData.append('description', data.description ?? '')
+        formData.append('desc', data.desc ?? '')
         if (data.imageUpload) {
             formData.append('image', data.imageUpload)
         }
 
         try {
             const res = await _serviceStoreAction(formData);
-            console.log('res _serviceStoreAction', res)
             const { status, message } = res;
             switch (status) {
                 case 1:
@@ -101,14 +98,15 @@ export default function ServiceAddModal() {
                     toast.warn(message)
                     return
                 default:
-                    toast.success('Something went wrong, please try again.');
+                    toast.warn(ERROR_MESSAGE);
                     setIsSubmitting(false);
                     return
             }
         } catch (error) {
             console.error('Form submission error:', error);
+            toast.error(ERROR_MESSAGE);
             setIsSubmitting(false);
-            toast.error('Failed to save data. Please try again.');
+            return
         }
     }
 
@@ -159,23 +157,13 @@ export default function ServiceAddModal() {
 
 
                                 <RichTextEditor
-                                    label="Description"
-                                    name="description"
-                                    value={data.description}
-                                    placeholder="Enter your Description..."
+                                    label="desc"
+                                    name="desc"
+                                    value={data.desc}
+                                    placeholder="Enter your desc..."
                                     onChange={setInputValue}
-                                    error={errors.description}
+                                    error={errors.desc}
                                 />
-
-                                <SelectAdminDefault
-                                    label='Status'
-                                    name='status'
-                                    data={StatusPubData}
-                                    value={data.status}
-                                    onChange={setInputValue}
-                                    error={errors.status}
-                                />
-                                <SpacerPrimary />
 
                                 <SelectAdminDefault
                                     label='Priority'

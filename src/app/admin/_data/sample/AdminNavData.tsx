@@ -28,8 +28,22 @@ export const AdminNavData: AdminNavInterface[] = [
     {
         id: 4,
         iconType: 'news',
-        name: 'News',
-        href: '/admin/news',
+        name: 'Events',
+        href: '/admin/events',
+        css: `bg-linear-to-br from-teal-500 to-teal-800 hover:bg-linear-to-br hover:from-teal-500 hover:to-teal-950`
+    },
+    {
+        id: 4,
+        iconType: 'image',
+        name: 'Gallery',
+        href: '/admin/gallery',
+        css: `bg-linear-to-br from-cyan-500 to-cyan-800 hover:bg-linear-to-br hover:from-cyan-500 hover:to-cyan-950`
+    },
+    {
+        id: 4,
+        iconType: 'newspaper',
+        name: 'Inquiry',
+        href: '/admin/inquiry',
         css: `bg-linear-to-br from-teal-500 to-teal-800 hover:bg-linear-to-br hover:from-teal-500 hover:to-teal-950`
     },
     {
