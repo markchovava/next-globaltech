@@ -29,7 +29,7 @@ export const AdminNavData: AdminNavInterface[] = [
         id: 4,
         iconType: 'news',
         name: 'Events',
-        href: '/admin/events',
+        href: '/admin/event',
         css: `bg-linear-to-br from-teal-500 to-teal-800 hover:bg-linear-to-br hover:from-teal-500 hover:to-teal-950`
     },
     {

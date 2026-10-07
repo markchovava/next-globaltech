@@ -13,9 +13,8 @@ import ImageInputDefault from '../../_components/forms/image/ImageInputDefault';
 import { _eventStoreAction } from '../../_data/actions/EventActions';
 import { useEventStore } from '../../_data/store/useEventStore';
 import { listNumbers } from '@/_utils/formatNumber';
-import TextArea from '@/_components/forms/textareas/TextArea';
-import { StatusPubData } from '@/_data/sample/StatusData';
 import RichTextEditor from '../../_components/forms/editors/RichTextEditor';
+import { StatusData } from '../../_data/sample/StatusData';
 
 
 
@@ -26,13 +25,9 @@ const variants: Variants = {
     hidden: { opacity: 0 },
     visible: {
         opacity: 1,
-        transition: {
-            type: 'spring',
-            duration: 1,
-        }
+        transition: { type: 'spring', duration: 1 },
     },
 }
-
 
 export default function EventAddModal() {
     const {
@@ -42,7 +37,6 @@ export default function EventAddModal() {
         isSubmitting,
         getDataList,
         resetData,
-        setImage,
         setInputValue,
         setToggleModal,
         clearErrors,
@@ -50,24 +44,28 @@ export default function EventAddModal() {
         validateForm,
     } = useEventStore()
 
+    // Reset the form every time the modal is opened, not just on first mount
     useEffect(() => {
-        resetData()
-    }, [resetData])
+        if (toggleModal) {
+            resetData()
+        }
+    }, [toggleModal, resetData])
 
     const handleToggleModal = () => {
         setToggleModal(!toggleModal)
     }
 
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+        e.preventDefault();          // must come first
+        if (isSubmitting) return;    // prevent double submits
         clearErrors();
-        e.preventDefault();
-        // Validate form using store
+
         const validation = validateForm();
         if (!validation.isValid) {
-            // Show the first error as toast
+            // Show the first available error, with a fallback so the toast is never empty
             const firstError =
-                validation.errors.name ||
-                validation.errors.desc;
+                (Object.values(validation.errors).find(Boolean) as string | undefined) ||
+                ERROR_MESSAGE;
             toast.warn(firstError);
             return;
         }
@@ -75,14 +73,15 @@ export default function EventAddModal() {
         setIsSubmitting(true);
         const formData = new FormData()
         formData.append('name', data.name ?? '')
-        formData.append('priority', data.priority.toString() ?? '')
+        formData.append('venue', data.venue ?? '')
+        formData.append('status', data.status ?? '')
+        formData.append('date', data.date ?? '')
+        formData.append('priority', String(data.priority ?? ''))   // safe if priority is null/undefined
         formData.append('desc', data.desc ?? '')
-        if (data.imageUpload) {
-            formData.append('image', data.imageUpload)
-        }
 
         try {
             const res = await _eventStoreAction(formData);
+            console.log('Event Add Response:', res);  // Debugging line
             const { status, message } = res;
             switch (status) {
                 case 1:
@@ -106,10 +105,8 @@ export default function EventAddModal() {
             console.error('Form submission error:', error);
             toast.error(ERROR_MESSAGE);
             setIsSubmitting(false);
-            return
         }
     }
-
 
     return (
         <AnimatePresence>
@@ -119,7 +116,7 @@ export default function EventAddModal() {
                     initial='hidden'
                     animate='visible'
                     exit='hidden'
-                    className={`w-screen h-screen fixed top-0 left-0 z-200 overflow-y-auto`}>
+                    className='w-screen h-screen fixed top-0 left-0 z-[200] overflow-y-auto'>
                     <div className='absolute z-0 top-0 left-0 w-full h-full bg-black opacity-40'></div>
                     <div className='w-full h-full absolute z-10 overflow-auto scroll__width py-24'>
                         <section className='mx-auto lg:w-[60%] w-[90%] bg-white text-black p-6 rounded-2xl'>
@@ -133,34 +130,54 @@ export default function EventAddModal() {
                                 <hr className="w-full border-b border-gray-100" />
                                 <SpacerPrimary />
 
-                                <div className='lg:w-[30%] w-[60%]'>
-                                    <ImageInputDefault
-                                        label='Image'
-                                        name='image'
-                                        value={data.image}
-                                        onChange={(e) => setImage(e)}
-                                        error={errors.image}
-                                    />
-                                </div>
-                                <SpacerPrimary />
-
                                 <TextInputDefault
                                     label='Name'
                                     name='name'
                                     type="text"
                                     value={data.name}
-                                    placeholder='Enter your Name...'
+                                    placeholder='Enter the event name...'
                                     onChange={setInputValue}
                                     error={errors.name}
                                 />
                                 <SpacerPrimary />
 
+                                <div className='grid grid-cols-2 gap-4'>
+                                    <TextInputDefault
+                                        label='Date'
+                                        name='date'
+                                        type="date"
+                                        value={data.date}
+                                        placeholder='Enter the date...'
+                                        onChange={setInputValue}
+                                        error={errors.date}
+                                    />
+                                    <TextInputDefault
+                                        label='Venue'
+                                        name='venue'
+                                        type="text"
+                                        value={data.venue}
+                                        placeholder='Enter the venue...'
+                                        onChange={setInputValue}
+                                        error={errors.venue}
+                                    />
+                                </div>
+                                <SpacerPrimary />
+
+                                <SelectAdminDefault
+                                    label='Status'
+                                    name='status'
+                                    data={StatusData}
+                                    value={data.status}
+                                    onChange={setInputValue}
+                                    error={String(errors.status ?? '')}
+                                />
+                                <SpacerPrimary />
 
                                 <RichTextEditor
-                                    label="desc"
+                                    label="Description"
                                     name="desc"
                                     value={data.desc}
-                                    placeholder="Enter your desc..."
+                                    placeholder="Enter the description..."
                                     onChange={setInputValue}
                                     error={errors.desc}
                                 />
@@ -171,7 +188,7 @@ export default function EventAddModal() {
                                     data={listNumbers(7)}
                                     value={data.priority}
                                     onChange={setInputValue}
-                                    error={errors.priority.toString()}
+                                    error={String(errors.priority ?? '')}
                                 />
                                 <SpacerPrimary />
 

@@ -21,7 +21,6 @@ interface Props {
     setIsLoading: (i: boolean) => void,
     setToggleModal: (i: boolean) => void,
     setDataList: (i: ResponseInterface) => void
-    setImage: (e: File) => void
     setSearch: (e: React.ChangeEvent<HTMLInputElement>) => void
     setIsSearching: (i: boolean) => void
     setInputValue: (
@@ -47,7 +46,7 @@ interface Props {
 export const useEventStore = create<Props>((set, get) => ({
     data: EventEntity,
     preData: EventEntity,
-    isLoading: false,
+    isLoading: true,
     meta: MetaEntity,
     links: MetaLinksEntity,
     dataList: [],
@@ -57,21 +56,32 @@ export const useEventStore = create<Props>((set, get) => ({
     errors: EventEntity,
     toggleModal: false,
     isSubmitting: false,
-    setImage: (i) => {
-        const current = get().data
-        set({
-            data: { ...current, imageUpload: i }
-        })
-    },
     setIsLoading: (i) => {
         set({ isLoading: i })
     },
     setToggleModal: (i) => {
         set({ toggleModal: i })
     },
-    setDataList: (i) => { },
-    setSearch: (e) => { },
-    setIsSearching: (i) => { },
+    setDataList: (i) => {
+        const { data, links, meta } = i
+        set({
+            dataList: data,
+            meta: meta,
+            links: links,
+            isLoading: false,
+        })
+    },
+    setSearch: (e) => {
+        const { value } = e.target;
+        set({
+            search: value
+        })
+    },
+    setIsSearching: (i) => {
+        set({
+            isSearching: i
+        })
+    },
     setInputValue: (e) => {
         const { name, value } = e.target;
         const currentData = get().data;
@@ -202,11 +212,11 @@ export const useEventStore = create<Props>((set, get) => ({
         try {
             const res = await _eventListAction();
             // Check if response has the expected structure
-            if (res && res.data && res.meta && res.links) {
+            if (res && res?.data && res?.meta && res.links) {
                 set({
-                    dataList: res.data,
-                    meta: res.meta,
-                    links: res.links,
+                    dataList: res?.data,
+                    meta: res?.meta,
+                    links: res?.links,
                     isLoading: false,
                 });
             } else {

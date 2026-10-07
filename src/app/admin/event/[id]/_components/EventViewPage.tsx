@@ -26,7 +26,7 @@ interface Props {
 export default function EventViewPage({ dbData }: Props) {
   const { data, setData, setToggleModal } = useEventStore()
 
-  console.log('dbData', dbData)
+  console.log('Event View dbData', dbData)
 
   useEffect(() => {
     // Call setData even if dbData.data is null 
@@ -84,7 +84,6 @@ function DataMainArea() {
   return (
     <section className='container__primary bg-white drop-shadow-lg rounded-lg p-6 space-y-4'>
 
-      <RecordImage label='Image' value={preData.image} />
       <RecordDefault label='Name' value={valueWithFallback(preData.name)} />
       <RecordDefault label='Description' value={<HtmlViewer htmlContent={preData.desc} />} />
       <RecordDefault label='Priority' value={valueWithFallback(priority)} />

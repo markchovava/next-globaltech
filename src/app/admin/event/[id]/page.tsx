@@ -1,10 +1,10 @@
 import BreadCrumbDefault from "../../_components/bread-crumbs/BreadCrumbDefault"
-import { _serviceViewAction } from "../../_data/actions/ServiceActions";
-import ServiceEditModal from "./_components/EventEditPage";
-import ServiceViewPage from "./_components/EventViewPage";
+import { _eventViewAction } from "../../_data/actions/EventActions";
+import EventEditModal from "./_components/EventEditPage";
+import EventViewPage from "./_components/EventViewPage";
 
 
-
+const title = 'View Event'
 
 interface Props {
   params: Promise<{
@@ -15,12 +15,12 @@ interface Props {
 
 export default async function page({ params }: Props) {
   const { id } = await params;
-  const [serviceData] = await Promise.all([_serviceViewAction(id)])
+  const [eventData] = await Promise.all([_eventViewAction(id)])
 
   const CrumbsData = [
     { id: 1, name: 'Admin', href: '/admin' },
-    { id: 3, name: 'Services', href: '/admin/service' },
-    { id: 4, name: 'View Service', href: `/admin/service/${id}` },
+    { id: 3, name: 'Events', href: '/admin/event' },
+    { id: 4, name: title, href: `/admin/event/${id}` },
   ]
 
   return (
@@ -28,10 +28,10 @@ export default async function page({ params }: Props) {
       <BreadCrumbDefault data={CrumbsData} />
 
       {/* PAGE */}
-      <ServiceViewPage dbData={serviceData} />
+      <EventViewPage dbData={eventData} />
 
       {/* MODAL */}
-      <ServiceEditModal id={id} />
+      <EventEditModal id={id} />
 
     </>
   )

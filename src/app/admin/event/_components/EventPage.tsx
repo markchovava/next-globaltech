@@ -17,6 +17,7 @@ import { valueWithFallback } from '@/_utils/StringManipulation'
 import { _eventDeleteAction } from '../../_data/actions/EventActions'
 import { useEventStore } from '../../_data/store/useEventStore'
 import StickerOne from '../../_components/stickers/StickerOne'
+import { formatDate } from '@/_utils/formatDate'
 
 
 
@@ -63,6 +64,8 @@ export default function EventPage({
             console.error('Form submission error:', error);
         }
     }
+
+    console.log('FROM DB', dbData)
 
     return (
         <>
@@ -146,22 +149,26 @@ function MainDataArea() {
             <section className='container__primary hidden lg:block drop-shadow-lg'>
                 {/* HEADER */}
                 <div className='bg-gray-100 w-full border border-gray-300 flex items-center justify-start font-medium'>
-                    <div className='w-[50%] px-4 py-3 border-r border-gray-300'>NAME</div>
-                    <div className='w-[10%] px-4 py-3 border-r border-gray-300'>PRIORITY</div>
-                    <div className='w-[30%] px-4 py-3 border-r border-gray-300'>USER</div>
+                    <div className='w-[35%] px-4 py-3 border-r border-gray-300'>NAME</div>
+                    <div className='w-[20%] px-4 py-3 border-r border-gray-300'>DATE</div>
+                    <div className='w-[15%] px-4 py-3 border-r border-gray-300'>STATUS</div>
+                    <div className='w-[20%] px-4 py-3 border-r border-gray-300'>USER</div>
                     <div className='w-[10%] px-4 py-3 '>ACTIONS</div>
                 </div>
                 {/* TABLE ROW */}
                 {dataList && dataList.length > 0 ?
                     dataList.map((i, key) => (
                         <div key={key} className='w-full bg-white border-x border-b border-gray-300 flex items-center justify-start'>
-                            <div className='w-[50%] px-4 py-3 border-r border-gray-300'>
+                            <div className='w-[35%] px-4 py-3 border-r border-gray-300'>
                                 <p>{valueWithFallback(i.name)}</p>
                             </div>
-                            <div className='w-[10%] px-4 py-3 border-r border-gray-300 flex'>
-                                {valueWithFallback(i.priority)}
+                            <div className='w-[20%] px-4 py-3 border-r border-gray-300 flex'>
+                                {valueWithFallback(formatDate(i.date))}
                             </div>
-                            <div className='w-[30%] px-4 py-3 border-r border-gray-300'>
+                            <div className='w-[15%] px-4 py-3 border-r border-gray-300 flex'>
+                                {valueWithFallback(i.status)}
+                            </div>
+                            <div className='w-[20%] px-4 py-3 border-r border-gray-300'>
                                 {i?.user?.name ? valueWithFallback(i?.user?.name) : 'Not Added yet'}
                             </div>
                             <div className='w-[10%] px-4 py-3 '>
@@ -192,12 +199,20 @@ function MainDataArea() {
                                     onDelete={() => handleDelete(i.id)} />
                             </div>
                             <div className=''>
-                                <p className='font-light'>User</p>
-                                <p>{i?.user?.name ? valueWithFallback(i?.user?.name) : i?.user?.email}</p>
+                                <p className='font-light'>Date:</p>
+                                <p> {formatDate(i?.date)} </p>
                             </div>
                             <div className=''>
                                 <p className='font-light'>Status</p>
-                                <StickerOne name={i?.status} condition='Published' />
+                                <p> {valueWithFallback(i?.status)} </p>
+                            </div>
+                            <div className=''>
+                                <p className='font-light'>User:</p>
+                                <p>
+                                    {i?.user?.name
+                                        ? valueWithFallback(i?.user?.name)
+                                        : i?.user?.email}
+                                </p>
                             </div>
                             <div className=''>
                                 <p className='font-light'>Priority</p>
