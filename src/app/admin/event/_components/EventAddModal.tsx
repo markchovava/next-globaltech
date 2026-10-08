@@ -76,7 +76,7 @@ export default function EventAddModal() {
         formData.append('venue', data.venue ?? '')
         formData.append('status', data.status ?? '')
         formData.append('date', data.date ?? '')
-        formData.append('priority', String(data.priority ?? ''))   // safe if priority is null/undefined
+        formData.append('priority', String(data.priority ?? ''))
         formData.append('desc', data.desc ?? '')
 
         try {

@@ -21,7 +21,9 @@ export default function SelectAdminDefault({
 
     return (
         <div className='flex flex-col gap-1 items-start justify-start'>
-            {label && <p className="font-light">{label}:</p>}
+            {label &&
+                <p className='mb-1 text-xs font-light'>{label}:</p>
+            }
             <select
                 name={name}
                 onChange={onChange}

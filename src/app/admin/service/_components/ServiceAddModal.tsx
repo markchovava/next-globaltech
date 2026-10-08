@@ -168,7 +168,7 @@ export default function ServiceAddModal() {
                                 <SelectAdminDefault
                                     label='Priority'
                                     name='priority'
-                                    data={listNumbers(7)}
+                                    data={listNumbers(8)}
                                     value={data.priority}
                                     onChange={setInputValue}
                                     error={errors.priority.toString()}

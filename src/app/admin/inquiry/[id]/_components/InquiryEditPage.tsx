@@ -1,25 +1,25 @@
 "use client"
 
-import React from 'react'
+import React, { useEffect } from 'react'
 import { AnimatePresence, motion, Variants } from 'framer-motion';
+import { useInquiryStore } from '../../../_data/store/useInquiryStore';
 import ButtonAdminClose from '@/app/admin/_components/buttons/ButtonAdminClose';
 import HeadingSecondary from '@/app/admin/_components/headings/HeadingSecondary';
 import SpacerPrimary from '@/_components/spacers/SpacerPrimary';
-import TextInputDefault from '@/app/admin/_components/forms/inputs/TextInputDefault';
 import SelectAdminDefault from '@/app/admin/_components/forms/selects/SelectAdminDefault';
 import { ButtonAdminSubmit } from '@/app/admin/_components/buttons/ButtonAdminSubmit';
 import { toast } from 'react-toastify';
-import { _eventUpdateAction } from '../../../_data/actions/EventActions';
-import { useEventStore } from '@/app/admin/_data/store/useEventStore';
-import { listNumbers } from '@/_utils/formatNumber';
-import RichTextEditor from '@/app/admin/_components/forms/editors/RichTextEditor';
-import { StatusData } from '@/app/admin/_data/sample/StatusData';
+import { _inquiryStatusUpdateAction } from '@/app/admin/_data/actions/InquiryActions';
+import { InquiryStatusData } from '@/app/admin/_data/sample/InquiryStatusData';
+import TextInputDefault from '@/app/admin/_components/forms/inputs/TextInputDefault';
+import TextAreaInputDefault from '@/app/admin/_components/forms/textareas/TextAreaInputDefault';
+import SelectAdminOne from '@/app/admin/_components/forms/selects/SelectAdminOne';
 
 
 
+const title = "Edit Inquiry"
+const ERROR_MESSAGE = "Something went wrong, please try again."
 
-const title = "Edit Event"
-const errorMessage = "Something went wrong, please try again."
 
 const variants: Variants = {
     hidden: { opacity: 0 },
@@ -35,22 +35,34 @@ const variants: Variants = {
 
 interface PropInterface {
     id: string | number
+    servicesData: any
+
 }
 
 
-export default function EventEditModal({ id }: PropInterface) {
+export default function InquiryEditModal({ id, servicesData }: PropInterface) {
     const {
         data,
-        errors,
         toggleModal,
         isSubmitting,
-        getData,
+        errors,
+        servicesList,
+        selectedService,
+        setServicesList,
+        setSelectedService,
+        clearErrors,
         setInputValue,
         setToggleModal,
-        clearErrors,
         setIsSubmitting,
         validateForm,
-    } = useEventStore()
+        getData,
+    } = useInquiryStore()
+
+    useEffect(() => {
+        if (servicesData?.data) {
+            setServicesList(servicesData?.data)
+        }
+    }, [servicesData?.data])
 
     const handleToggleModal = () => {
         setToggleModal(!toggleModal)
@@ -63,42 +75,39 @@ export default function EventEditModal({ id }: PropInterface) {
         const validation = validateForm();
         if (!validation.isValid) {
             // Show the first error as toast
-            const firstError =
-                validation.errors.name ||
-                validation.errors.desc;
+            const firstError = validation.errors.customerName ||
+                validation.errors.customerPhone ||
+                validation.errors.customerEmail ||
+                validation.errors.message
             toast.warn(firstError);
             return;
         }
-
         setIsSubmitting(true);
-        const formData = new FormData()
-        formData.append('name', data.name ?? '')
-        formData.append('venue', data.venue ?? '')
-        formData.append('status', data.status ?? '')
-        formData.append('date', data.date ?? '')
-        formData.append('priority', String(data.priority ?? ''))
-        formData.append('desc', data.desc ?? '')
-
+        const formData = {
+            status: data.status
+        }
         try {
-            const res = await _eventUpdateAction(id, formData);
+            const res = await _inquiryStatusUpdateAction(id, formData);
+            console.log('response::;', res)
             const { status, message } = res;
             switch (status) {
                 case 1:
+                    toast.success(message);
                     await getData(id);
                     clearErrors();
                     setIsSubmitting(false);
                     setToggleModal(false)
-                    toast.success(message);
                     return
                 default:
-                    toast.success(errorMessage);
+                    toast.warn(ERROR_MESSAGE);
                     setIsSubmitting(false);
                     return
             }
         } catch (error) {
-            toast.error(errorMessage);
+            toast.error(ERROR_MESSAGE);
             console.error('Form submission error:', error);
             setIsSubmitting(false);
+            return
         }
     }
 
@@ -125,65 +134,14 @@ export default function EventEditModal({ id }: PropInterface) {
                                 <hr className="w-full border-b border-gray-100" />
                                 <SpacerPrimary />
 
-                                <TextInputDefault
-                                    label='Name'
-                                    name='name'
-                                    type="text"
-                                    value={data.name}
-                                    placeholder='Enter the event name...'
-                                    onChange={setInputValue}
-                                    error={errors.name}
-                                />
-                                <SpacerPrimary />
-
-                                <div className='grid grid-cols-2 gap-4'>
-                                    <TextInputDefault
-                                        label='Date'
-                                        name='date'
-                                        type="date"
-                                        value={data.date}
-                                        placeholder='Enter the date...'
-                                        onChange={setInputValue}
-                                        error={errors.date}
-                                    />
-                                    <TextInputDefault
-                                        label='Venue'
-                                        name='venue'
-                                        type="text"
-                                        value={data.venue}
-                                        placeholder='Enter the venue...'
-                                        onChange={setInputValue}
-                                        error={errors.venue}
-                                    />
-                                </div>
-                                <SpacerPrimary />
 
                                 <SelectAdminDefault
                                     label='Status'
                                     name='status'
-                                    data={StatusData}
+                                    data={InquiryStatusData}
                                     value={data.status}
                                     onChange={setInputValue}
-                                    error={String(errors.status ?? '')}
-                                />
-                                <SpacerPrimary />
-
-                                <RichTextEditor
-                                    label="Description"
-                                    name="desc"
-                                    value={data.desc}
-                                    placeholder="Enter the description..."
-                                    onChange={setInputValue}
-                                    error={errors.desc}
-                                />
-
-                                <SelectAdminDefault
-                                    label='Priority'
-                                    name='priority'
-                                    data={listNumbers(7)}
-                                    value={data.priority}
-                                    onChange={setInputValue}
-                                    error={String(errors.priority ?? '')}
+                                    error={errors.status}
                                 />
                                 <SpacerPrimary />
 
@@ -196,6 +154,8 @@ export default function EventEditModal({ id }: PropInterface) {
                                 </div>
                                 <SpacerPrimary />
                             </form>
+
+
                         </section>
                     </div>
                 </motion.section>
