@@ -2,7 +2,7 @@ export const ServiceData = [
     {
         id: 1,
         name: 'STRATEGY PLANNING & REVIEWS',
-        image: '/assets/images/services/strategy.png',
+        image: '/assets/images/services/strategy.jpg',
         desc: <>
             Facilitate strategic planning sessions with leadership teams.
             Set goals, KPIs and targets.
@@ -12,7 +12,7 @@ export const ServiceData = [
     {
         id: 2,
         name: 'RECRUITMENT & SELECTION',
-        image: '/assets/images/services/recruit.png',
+        image: '/assets/images/services/recruitment.jpg',
         desc: <>
             End-to-end recruitment solutions.
             Headhunting and candidate sourcing.
@@ -23,7 +23,7 @@ export const ServiceData = [
     {
         id: 3,
         name: 'PERFORMANCE MANAGEMENT SYSTEMS',
-        image: '/assets/images/services/performance.png',
+        image: '/assets/images/services/performance.jpg',
         desc: <>
             Develop performance frameworks and KPIs
             Implement Balanced Scorecard and appraisal systems
@@ -33,7 +33,7 @@ export const ServiceData = [
     {
         id: 4,
         name: 'JOB EVALUATION & SALARY STRUCTURING',
-        image: '/assets/images/services/job.png',
+        image: '/assets/images/services/evaluation.jpg',
         desc: <>
             Job analysis and profiling
             Job evaluation using recognized methodologies (Paterson, Hay)
@@ -43,7 +43,7 @@ export const ServiceData = [
     {
         id: 5,
         name: 'SURVEYS & RESEARCH',
-        image: '/assets/images/services/survey.png',
+        image: '/assets/images/services/survey.jpg',
         desc: <>
             Employee engagement & satisfaction surveys
             Salary & benefits benchmarking
@@ -53,7 +53,7 @@ export const ServiceData = [
     {
         id: 6,
         name: 'TRAINING & DEVELOPMENT',
-        image: '/assets/images/services/training.png',
+        image: '/assets/images/services/training.jpg',
         desc: <>
             Customized training programs
             Leadership and team development
@@ -63,7 +63,7 @@ export const ServiceData = [
     {
         id: 7,
         name: 'ORGANISATION DESIGN & RESTRUCTURING',
-        image: '/assets/images/services/organisation.png',
+        image: '/assets/images/services/organisation.jpg',
         desc: <>
             Organisational design and alignment
             Restructuring and right-sizing
@@ -73,7 +73,7 @@ export const ServiceData = [
     {
         id: 8,
         name: 'POLICY & PROCEDURE FORMULATION',
-        image: '/assets/images/services/policy.png',
+        image: '/assets/images/services/policy.jpg',
         desc: <>
             Develop HR and organisational policies
             Operational procedures and governance frameworks
@@ -83,7 +83,7 @@ export const ServiceData = [
     {
         id: 9,
         name: 'Training & Capacity Development',
-        image: '/assets/images/services/training.png',
+        image: '/assets/images/services/capacity.jpg',
         desc: <>
             HR strategy and advisory support
             Employee relations and conflict resolution

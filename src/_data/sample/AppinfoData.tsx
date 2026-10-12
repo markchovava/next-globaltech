@@ -145,10 +145,7 @@ export const AppInfoData = {
         { name: 'linkedin', href: '#', iconCss: 'text-blue-600' },
     ],
     images: [
-        '/assets/images/media/01.png',
-        '/assets/images/media/02.png',
-        '/assets/images/media/03.png',
-        '/assets/images/media/04.png',
+        '/assets/images/gallery/01.jpg',
         '/assets/images/gallery/02.jpg',
         '/assets/images/gallery/03.jpg',
         '/assets/images/gallery/04.jpg',
@@ -159,11 +156,6 @@ export const AppInfoData = {
         '/assets/images/gallery/09.jpg',
         '/assets/images/gallery/10.jpg',
         '/assets/images/gallery/11.jpg',
-        '/assets/images/gallery/12.jpg',
-        '/assets/images/gallery/13.jpg',
-        '/assets/images/gallery/14.jpg',
-        '/assets/images/gallery/15.jpg',
-        '/assets/images/gallery/16.jpg',
     ],
     headers: [
         `/assets/images/headers/01.png`,
@@ -173,10 +165,9 @@ export const AppInfoData = {
         `/assets/images/headers/05.png`,
     ],
     banners: [
-        `/assets/images/banners/01.png`,
+        `/assets/images/banners/03.png`,
         `/assets/images/banners/02.png`,
         `/assets/images/banners/01.jpg`,
-        `/assets/images/banners/03living.jpg`,
     ],
     important: [
         {
