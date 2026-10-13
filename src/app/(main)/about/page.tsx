@@ -16,9 +16,7 @@ const title = 'About Us'
 export const metadata: Metadata = {
     title: title + ' | ' + AppInfoData.name,
     description: title + ' | ' + AppInfoData.name,
-    keywords: [
-        title + ' | ' + AppInfoData.name,
-    ],
+    keywords: [],
     openGraph: {
         images: ['/assets/images/logos/logo.png'],
         title: title + ' | ' + AppInfoData.name,

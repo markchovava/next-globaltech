@@ -3,7 +3,8 @@ import { UserEntity, UserInterface } from "./UserEntity"
 
 
 
-export interface GallerInterface {
+export interface GalleryInterface {
+    id: string | number
     eventId: string | number
     userId: string
     image: string
@@ -15,7 +16,8 @@ export interface GallerInterface {
 }
 
 
-export const GalleryEntity = {
+export const GalleryEntity: GalleryInterface = {
+    id: '',
     eventId: '',
     userId: '',
     image: '',

@@ -5,9 +5,21 @@ import ServiceSection from '@/_components/sections/ServiceSection'
 import Spacer from '@/_components/spacers/Spacer'
 import { AppInfoData } from '@/_data/sample/AppinfoData'
 import { ServiceData } from '@/_data/sample/ServiceData'
+import { Metadata } from 'next'
 
 
 const title = 'Our Services'
+
+export const metadata: Metadata = {
+    title: title + ' | ' + AppInfoData.name,
+    description: title + ' | ' + AppInfoData.name,
+    keywords: [],
+    openGraph: {
+        images: ['/assets/images/logos/logo.png'],
+        title: title + ' | ' + AppInfoData.name,
+        description: title + ' | ' + AppInfoData.name,
+    },
+};
 
 const CrumbsData = [
     { id: 1, name: 'Home', href: '/' },
