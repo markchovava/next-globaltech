@@ -70,7 +70,7 @@ export default function ClientCard({ client }: { client: ClientInterface }) {
                 width={400}
                 height={300}
                 draggable={false}
-                className="relative h-full w-full object-contain opacity-60 grayscale transition-all duration-300 group-hover:opacity-100 group-hover:grayscale-0"
+                className="relative h-full w-full object-contain transition-all duration-300 group-hover:opacity-100 group-hover:grayscale-0"
             />
         </motion.div>
     )

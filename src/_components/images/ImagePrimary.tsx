@@ -19,7 +19,9 @@ export default function ImagePrimary({
                 alt={text}
                 src={image}
                 fill
-                className="object-cover"
+                className={`object-cover w-full h-full 
+                    ease-in-out transition-all duration-200 
+                    group-hover:scale-110`}
             />
         </>
     )

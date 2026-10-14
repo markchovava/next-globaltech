@@ -1,4 +1,5 @@
 import BreadCrumbDefault from "../_components/bread-crumbs/BreadCrumbDefault"
+import { _eventAllAction } from "../_data/actions/EventActions"
 import { _galleryListAction } from "../_data/actions/GalleryActions"
 import GalleryAddModal from "./_components/GalleryAddModal"
 import GalleryPage from "./_components/GalleryPage"
@@ -14,7 +15,10 @@ const CrumbsData = [
 
 
 export default async function page() {
-  const [galleriesData] = await Promise.all([_galleryListAction()])
+  const [galleriesData, eventsData] = await Promise.all([
+    _galleryListAction(),
+    _eventAllAction(),
+  ])
 
   return (
     <>
@@ -25,7 +29,7 @@ export default async function page() {
       <GalleryPage title={title} dbData={galleriesData} />
 
       {/* MODAL */}
-      <GalleryAddModal />
+      <GalleryAddModal eventsData={eventsData} />
 
     </>
   )

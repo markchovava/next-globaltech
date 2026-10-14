@@ -4,13 +4,48 @@ import { create } from "zustand";
 import { GalleryEntity, GalleryInterface } from "../entity/GalleryEntity";
 import { ResponseInterface, MetaLinksEntity, MetaEntity, MetaLinksInterface, MetaInterface } from "../entity/ResponseEntity";
 import { _galleryListAction, _galleryPaginateAction, _gallerySearchAction, _galleryViewAction } from "../actions/GalleryActions";
+import { EventEntity, EventInterface } from "../entity/EventEntity";
 
+
+interface ImageItemInterface {
+    id: string | number
+    image: string
+    imageUpload: null | File
+}
+
+interface EventItemInterface {
+    value: string | number
+    label: string | number
+}
+
+const EventItemEntity: EventItemInterface = {
+    value: '',
+    label: '',
+}
+
+const ImageItemEntity: ImageItemInterface = {
+    id: '',
+    image: '',
+    imageUpload: null,
+}
+
+const ImageListEntity: ImageItemInterface[] = [
+    { id: 1, image: '', imageUpload: null },
+    { id: 2, image: '', imageUpload: null },
+    { id: 3, image: '', imageUpload: null },
+    { id: 4, image: '', imageUpload: null },
+    { id: 5, image: '', imageUpload: null },
+    { id: 6, image: '', imageUpload: null },
+]
 
 interface Props {
     data: GalleryInterface,
     preData: GalleryInterface,
     isLoading: boolean,
+    eventList: EventItemInterface[]
+    selectedEvent: EventItemInterface
     search: string,
+    imageList: ImageItemInterface[]
     meta: MetaInterface,
     links: MetaLinksInterface,
     dataList: GalleryInterface[],
@@ -18,6 +53,9 @@ interface Props {
     toggleModal: boolean,
     isSearching: boolean,
     isSubmitting: boolean,
+    setEventList: (i: EventInterface[]) => void
+    setSelectedEvent: (id: string | number, name: string | number) => void
+    setImage: (id: string | number, e: File) => void
     setIsLoading: (i: boolean) => void,
     setToggleModal: (i: boolean) => void,
     setDataList: (i: ResponseInterface) => void
@@ -41,11 +79,14 @@ interface Props {
 }
 
 
-export const useEventStore = create<Props>((set, get) => ({
+export const useGalleryStore = create<Props>((set, get) => ({
     data: GalleryEntity,
     preData: GalleryEntity,
     isLoading: true,
+    eventList: [],
+    selectedEvent: EventItemEntity,
     search: '',
+    imageList: ImageListEntity,
     meta: MetaEntity,
     links: MetaLinksEntity,
     dataList: [],
@@ -53,6 +94,25 @@ export const useEventStore = create<Props>((set, get) => ({
     toggleModal: false,
     isSearching: false,
     isSubmitting: false,
+    setEventList: (i) => {
+        const list = i.map((s) => ({ value: s.id, label: s.name }))
+        set({
+            eventList: list
+        })
+    },
+    setSelectedEvent: (id, name) => {
+        set({
+            selectedEvent: { label: name, value: id },
+        })
+    },
+    setImage: (id, image) => {
+        const list = get().imageList;
+        set({
+            imageList: list.map(i =>
+                i.id === id ? { ...i, imageUpload: image } : i
+            )
+        });
+    },
     setIsLoading: (i) => {
         set({
             isLoading: i

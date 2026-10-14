@@ -94,7 +94,7 @@ export default function ClientSection({
                             },
                         }}
                         style={{ originX: 0 }}
-                        className="mt-4 h-1 w-24 rounded-full bg-gradient-to-r from-cyan-500 to-blue-600"
+                        className="mt-4 h-1 w-24 rounded-full bg-linear-to-r from-cyan-500 to-blue-600"
                     />
                 </motion.div>
             </div>

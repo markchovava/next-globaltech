@@ -3,15 +3,18 @@
 import SpacerDefault from '@/_components/spacers/SpacerDefault'
 import SpacerPrimary from '@/_components/spacers/SpacerPrimary'
 import HeadingDefault from '../../_components/headings/HeadingDefault'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import PaginateDefault from '../../_components/paginations/PaginateDefault'
 import PlaceholderDefault from '../../_components/placeholders/PlaceholderDefault'
 import LoaderPrimary from '../../_components/loaders/LoaderPrimary'
 import { toast } from 'react-toastify'
-import { _eventDeleteAction } from '../../_data/actions/EventActions'
-import { useEventStore } from '../../_data/store/useEventStore'
 import { NoImageData } from '@/_data/sample/NoImage'
-import Image from 'next/image'
+import ButtonAdmin from '../../_components/buttons/ButtonAdmin'
+import GalleryCard from '../../_components/cards/GalleryCard'
+import { useGalleryStore } from '../../_data/store/useGalleryStore'
+import { _galleryDeleteAction } from '../../_data/actions/GalleryActions'
+import { baseURL } from '@/_api/baseURL'
+import ImageLightbox from '../../_components/lightbox/ImageLightbox'
 
 
 
@@ -20,8 +23,12 @@ interface Props {
     title: string
 }
 
+const ERROR_MESSAGE = "Something went wrong, please try again."
+
 export default function GalleryPage({
-    dbData }: Props
+    dbData,
+    title
+}: Props
 ) {
     const {
         search,
@@ -34,13 +41,13 @@ export default function GalleryPage({
         links,
         getSearchDatalist,
         getPaginatedDatalist,
-    } = useEventStore()
+    } = useGalleryStore()
 
     useEffect(() => {
-        // Call setData even if dbData.data is null 
-        // to ensure isLoading becomes false
         setDataList(dbData)
-    }, [dbData.data, setDataList]) // Adding dependencies is best practice
+    }, [dbData.data, setDataList])
+
+    console.log("dbData:: ", dbData)
 
     const handleToggleModal = () => {
         setToggleModal(!toggleModal)
@@ -50,21 +57,23 @@ export default function GalleryPage({
         await getPaginatedDatalist(url)
     }
 
-    const handleSearch = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        try {
-            await getSearchDatalist(search)
-        } catch (error) {
-            console.error('Form submission error:', error);
-        }
-    }
+
 
     // console.log('FROM DB', dbData)
 
     return (
         <>
             <SpacerDefault />
-            <HeadingDefault title="Events" />
+            <HeadingDefault title={title} />
+            <SpacerPrimary />
+
+            <section className='container__primary py-3 flex items-center justify-end'>
+                <ButtonAdmin
+                    onClick={handleToggleModal}
+                    name='Add'
+                    css="px-8 py-3 text-white"
+                />
+            </section>
             <SpacerPrimary />
 
             <MainDataArea />
@@ -90,27 +99,37 @@ function MainDataArea() {
         dataList,
         setIsLoading,
         getDataList
-    } = useEventStore()
+    } = useGalleryStore()
+
+    const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
+
+    const lightboxImages = (dataList ?? []).map((i: any) => ({
+        src: baseURL + i?.image,
+        caption: i?.event?.name,
+    }))
 
     async function handleDelete(id: string | number) {
         setIsLoading(true)
         try {
-            const res = await _eventDeleteAction(id)
-            const { data, status, message } = res
+            const res = await _galleryDeleteAction(id)
+            const { status, message } = res
             if (status === 1) {
                 toast.success(message)
+                setLightboxIndex(null)
                 await getDataList()
                 setIsLoading(false)
                 return
             }
-            toast.warn('Something went wrong, please try again.')
-            setIsLoading(false)
-            return
+            else {
+                toast.warn(ERROR_MESSAGE)
+                setIsLoading(false)
+                return
+            }
         } catch (error) {
             console.error('Delete error: ', error);
+            toast.warn(ERROR_MESSAGE)
             setIsLoading(false)
         }
-
     }
 
     if (isLoading) {
@@ -121,27 +140,30 @@ function MainDataArea() {
 
     return (
         <>
-            {/* DESKTOP */}
-            <section className='container__primary '>
-
-                <div className='w-full grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-6 mb-6'>
-
-                </div>
-
-                {/* TABLE ROW */}
+            <section className='container__primary'>
                 {dataList && dataList.length > 0 ?
-                    dataList.map((i, key) => (
-                        <div key={key} className='w-full bg-white border-x border-b border-gray-300 flex items-center justify-start'>
-                            Text
-                        </div>
-                    ))
+                    <div className='w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-6'>
+                        {dataList.map((i: any, key: number) => (
+                            <GalleryCard
+                                key={i?.id ?? key}
+                                image={baseURL + i?.image}
+                                text={i?.event?.name}
+                                deleteBtn={() => handleDelete(i?.id)}
+                                viewBtn={() => setLightboxIndex(key)}
+                            />
+                        ))}
+                    </div>
                     :
                     <PlaceholderDefault />
                 }
-
             </section>
 
-
+            <ImageLightbox
+                images={lightboxImages}
+                index={lightboxIndex}
+                onClose={() => setLightboxIndex(null)}
+                onIndexChange={setLightboxIndex}
+            />
         </>
     )
 }

@@ -15,6 +15,9 @@ import { useEventStore } from '../../_data/store/useEventStore';
 import { listNumbers } from '@/_utils/formatNumber';
 import RichTextEditor from '../../_components/forms/editors/RichTextEditor';
 import { StatusData } from '../../_data/sample/StatusData';
+import { useGalleryStore } from '../../_data/store/useGalleryStore';
+import SelectAdminOne from '../../_components/forms/selects/SelectAdminOne';
+import { _galleryStoreAction } from '../../_data/actions/GalleryActions';
 
 
 
@@ -29,25 +32,40 @@ const variants: Variants = {
     },
 }
 
-export default function GalleryAddModal() {
+interface Props {
+    eventsData?: any
+}
+
+export default function GalleryAddModal({
+    eventsData
+}: Props) {
     const {
         data,
         errors,
         toggleModal,
         isSubmitting,
+        imageList,
+        selectedEvent,
+        eventList,
         getDataList,
+        setEventList,
         resetData,
+        setImage,
         setInputValue,
+        setSelectedEvent,
         setToggleModal,
         clearErrors,
         setIsSubmitting,
-        validateForm,
-    } = useEventStore()
+    } = useGalleryStore()
 
-    // Reset the form every time the modal is opened, not just on first mount
+    // console.log('eventsData:: ', eventsData)
+
     useEffect(() => {
         if (toggleModal) {
             resetData()
+        }
+        if (eventsData?.data) {
+            setEventList(eventsData?.data)
         }
     }, [toggleModal, resetData])
 
@@ -60,28 +78,18 @@ export default function GalleryAddModal() {
         if (isSubmitting) return;    // prevent double submits
         clearErrors();
 
-        const validation = validateForm();
-        if (!validation.isValid) {
-            // Show the first available error, with a fallback so the toast is never empty
-            const firstError =
-                (Object.values(validation.errors).find(Boolean) as string | undefined) ||
-                ERROR_MESSAGE;
-            toast.warn(firstError);
-            return;
-        }
-
         setIsSubmitting(true);
         const formData = new FormData()
-        formData.append('name', data.name ?? '')
-        formData.append('venue', data.venue ?? '')
-        formData.append('status', data.status ?? '')
-        formData.append('date', data.date ?? '')
-        formData.append('priority', String(data.priority ?? ''))
-        formData.append('desc', data.desc ?? '')
+        formData.append('eventId', String(selectedEvent.value))
+        imageList.forEach((item) => {
+            if (item.imageUpload) {
+                formData.append('images[]', item.imageUpload)
+            }
+        })
 
         try {
-            const res = await _eventStoreAction(formData);
-            console.log('Event Add Response:', res);  // Debugging line
+            const res = await _galleryStoreAction(formData);
+            console.log('Gallery Response:', res);  // Debugging line
             const { status, message } = res;
             switch (status) {
                 case 1:
@@ -130,67 +138,67 @@ export default function GalleryAddModal() {
                                 <hr className="w-full border-b border-gray-100" />
                                 <SpacerPrimary />
 
-                                <TextInputDefault
-                                    label='Name'
-                                    name='name'
-                                    type="text"
-                                    value={data.name}
-                                    placeholder='Enter the event name...'
-                                    onChange={setInputValue}
-                                    error={errors.name}
-                                />
-                                <SpacerPrimary />
-
-                                <div className='grid grid-cols-2 gap-4'>
-                                    <TextInputDefault
-                                        label='Date'
-                                        name='date'
-                                        type="date"
-                                        value={data.date}
-                                        placeholder='Enter the date...'
-                                        onChange={setInputValue}
-                                        error={errors.date}
+                                <div className='grid grid-cols-3 gap-6'>
+                                    <ImageInputDefault
+                                        label='Image'
+                                        name='name'
+                                        value={imageList[0].image}
+                                        onChange={(e) => setImage(1, e)}
+                                        error={errors.image}
                                     />
-                                    <TextInputDefault
-                                        label='Venue'
-                                        name='venue'
-                                        type="text"
-                                        value={data.venue}
-                                        placeholder='Enter the venue...'
-                                        onChange={setInputValue}
-                                        error={errors.venue}
+                                    <ImageInputDefault
+                                        label='Image'
+                                        name='name'
+                                        value={imageList[0].image}
+                                        onChange={(e) => setImage(2, e)}
+                                        error={errors.image}
+                                    />
+                                    <ImageInputDefault
+                                        label='Image'
+                                        name='name'
+                                        value={imageList[0].image}
+                                        onChange={(e) => setImage(3, e)}
+                                        error={errors.image}
+                                    />
+                                    <ImageInputDefault
+                                        label='Image'
+                                        name='name'
+                                        value={imageList[0].image}
+                                        onChange={(e) => setImage(4, e)}
+                                        error={errors.image}
+                                    />
+                                    <ImageInputDefault
+                                        label='Image'
+                                        name='name'
+                                        value={imageList[0].image}
+                                        onChange={(e) => setImage(5, e)}
+                                        error={errors.image}
+                                    />
+                                    <ImageInputDefault
+                                        label='Image'
+                                        name='name'
+                                        value={imageList[0].image}
+                                        onChange={(e) => setImage(6, e)}
+                                        error={errors.image}
                                     />
                                 </div>
                                 <SpacerPrimary />
 
-                                <SelectAdminDefault
-                                    label='Status'
-                                    name='status'
-                                    data={StatusData}
-                                    value={data.status}
-                                    onChange={setInputValue}
-                                    error={String(errors.status ?? '')}
+
+                                <SelectAdminOne
+                                    label='Event'
+                                    name='event'
+                                    placeholder='Select a Event'
+                                    data={eventList}
+                                    value={selectedEvent.value}
+                                    onChange={(e) => {
+                                        const id = e.target.value
+                                        const event = eventList.find((s) => String(s.value) === id)
+                                        setSelectedEvent(id, event?.label ?? '')
+                                    }}
                                 />
                                 <SpacerPrimary />
 
-                                <RichTextEditor
-                                    label="Description"
-                                    name="desc"
-                                    value={data.desc}
-                                    placeholder="Enter the description..."
-                                    onChange={setInputValue}
-                                    error={errors.desc}
-                                />
-
-                                <SelectAdminDefault
-                                    label='Priority'
-                                    name='priority'
-                                    data={listNumbers(7)}
-                                    value={data.priority}
-                                    onChange={setInputValue}
-                                    error={String(errors.priority ?? '')}
-                                />
-                                <SpacerPrimary />
 
                                 <div className='flex items-center justify-center'>
                                     <ButtonAdminSubmit
