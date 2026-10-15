@@ -1,13 +1,18 @@
 "use client"
 
+import { useEffect, useMemo, useState } from "react"
 import CardOne from "../cards/CardOne"
 import Spacer from "../spacers/Spacer"
 import TitleNormal from "../titles/TitleNormal"
 import { motion, Transition } from "motion/react"
 import { OfferInterface } from "@/_data/entity/OfferEntity"
-
-
-
+import ImageLightbox from "@/app/admin/_components/lightbox/ImageLightbox"
+import { GalleryInterface } from "@/_data/entity/GalleryEntity"
+import GalleryCard from "../cards/GalleryCard"
+import { useGalleryStore } from "@/_store/useGalleryStore"
+import PaginateDefault from "@/app/admin/_components/paginations/PaginateDefault"
+import { baseURL } from "@/_api/baseURL"
+// import { baseURL } from "@/_api/baseURL" // uncomment if your image paths are relative
 
 
 const smoothTransition = (delay: number): Transition => ({
@@ -18,10 +23,9 @@ const smoothTransition = (delay: number): Transition => ({
 
 
 interface Props {
-    list: OfferInterface[] | any[]
+    list: any
     title: string
     subtitle?: string
-
 }
 
 const STAGGER_STEP = 0.1 // seconds between each card's entrance
@@ -31,7 +35,35 @@ export default function GallerySection({
     title,
     subtitle
 }: Props) {
+    const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
+    const {
+        toggleModal,
+        datalist,
+        meta,
+        links,
+        setToggleModal,
+        getPaginatedDatalist,
+        setDatalist
+    } = useGalleryStore()
 
+    useEffect(() => {
+        if (list) setDatalist(list)
+    }, [list, setDatalist])
+
+    async function handlePaginate(url: string) {
+        await getPaginatedDatalist(url)
+    }
+
+    // Map your items to what the lightbox needs.
+    // Adjust the field names (image / name) to match your data shape.
+    const lightboxImages = useMemo(
+        () =>
+            (datalist ?? []).map((i) => ({
+                src: baseURL + i.image,
+                caption: i.event?.name,
+            })),
+        [datalist]
+    )
 
     return (
         <>
@@ -41,28 +73,45 @@ export default function GallerySection({
                     <TitleNormal name={title} title={subtitle} />
 
                     <div className={`w-full grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-5`}>
-                        {list && list.length > 0 && list.map((i, key) => (
+                        {datalist && datalist.length > 0 && datalist.map((i, index) => (
                             <motion.div
-                                key={key}
+                                key={i.id}
+                                role="button"
+                                tabIndex={0}
+                                aria-label={`View ${i?.event?.name ?? "image"}`}
+                                className="cursor-pointer"
+                                onClick={() => setLightboxIndex(index)}
+                                onKeyDown={(e) => {
+                                    if (e.key === "Enter" || e.key === " ") {
+                                        e.preventDefault()
+                                        setLightboxIndex(index)
+                                    }
+                                }}
                                 initial={{ opacity: 0, y: 50 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true, margin: "-30px" }}
-                                transition={smoothTransition(key * STAGGER_STEP)} >
-                                <CardOne
-                                    key={key}
-                                    data={i} />
+                                transition={smoothTransition(index * STAGGER_STEP)}
+                            >
+                                <GalleryCard data={i} />
                             </motion.div>
                         ))}
                     </div>
-                    {/*  <div className="flex items-center justify-center pt-4">
-                        <Button
-                            name="View More"
-                            css="text-lg py-4 px-11 text-white"
-                        />
-                    </div> */}
                 </div>
                 <Spacer />
+                <section className='container__primary flex items-center justify-end gap-3'>
+                    <PaginateDefault
+                        meta={meta}
+                        links={links}
+                        handlePaginate={handlePaginate} />
+                </section>
             </section>
+
+            <ImageLightbox
+                images={lightboxImages}
+                index={lightboxIndex}
+                onClose={() => setLightboxIndex(null)}
+                onIndexChange={setLightboxIndex}
+            />
         </>
     )
 }

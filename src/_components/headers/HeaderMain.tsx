@@ -8,11 +8,32 @@ import HeaderMainResponsive from "./HeaderMainResponsive"
 import ButtonMenu from "../buttons/ButtonMenu"
 import BannerMain from "../banners/BannerMain"
 import HeaderTop from "./HeaderTop"
+import { useAppInfoStore } from "@/_store/useAppInfoStore"
+import { AppInfoEntity } from "@/_data/entity/AppInfoEntity"
+import { AppInfoData } from "@/_data/sample/AppinfoData"
 
-export default function HeaderMain() {
+
+
+interface Props {
+    appData?: any
+}
+export default function HeaderMain({ appData }: Props) {
     const [scrolled, setScrolled] = useState(false)
+    const { setData, data } = useAppInfoStore()
 
     useEffect(() => {
+        setData({
+            ...AppInfoEntity,
+            email: AppInfoData.email,
+            address: appData.data.address ?? AppInfoData.address,
+            emailList: AppInfoData.emailList,
+            name: appData.data.name ?? AppInfoData.name,
+            phone: appData.data.phone ?? AppInfoData.phone,
+            facebook: appData.data.facebook ?? '#',
+            instagram: appData.data.instagram ?? '#',
+            tiktok: appData.data.tiktok ?? '#',
+            linkedin: appData.data.linkedin ?? '#',
+        })
         const onScroll = () => setScrolled(window.scrollY > 8)
         onScroll()
         window.addEventListener("scroll", onScroll, { passive: true })

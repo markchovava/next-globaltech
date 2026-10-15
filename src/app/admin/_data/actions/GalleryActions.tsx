@@ -9,6 +9,18 @@ import { getAuthHeaders } from "./_helpers/getAuthHeaders";
 /*********************************
  * PUBLIC ACTIONS
  *********************************/
+
+export async function galleryPaginateAction(url: string) {
+    const res = await fetch(url, {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        }
+    });
+    return await res.json();
+}
+
 export async function galleryListAction() {
     const res = await fetch(`${baseURL}gallery`, {
         method: 'GET',

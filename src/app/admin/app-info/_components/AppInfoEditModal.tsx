@@ -141,7 +141,7 @@ export default function AppInfoEditModal() {
                                 <TextInputDefault
                                     label='Email'
                                     name='email'
-                                    type="email"
+                                    type="text"
                                     value={data.email}
                                     placeholder='Enter your Email.'
                                     onChange={setInputValue}

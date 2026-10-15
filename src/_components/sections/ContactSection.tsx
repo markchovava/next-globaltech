@@ -39,9 +39,9 @@ interface Props {
 export default function ContactSection({ dbData }: Props) {
     const { data, setData } = useAppInfoStore()
 
-    useEffect(() => {
+    /* useEffect(() => {
         setData(dbData)
-    }, [setData, dbData])
+    }, [setData, dbData]) */
 
     // build the visible rows so we can index them for staggering
     const rows = [

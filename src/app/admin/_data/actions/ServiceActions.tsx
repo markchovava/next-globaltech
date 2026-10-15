@@ -21,14 +21,20 @@ export async function serviceFrontAction() {
 }
 
 export async function serviceAllAction() {
-    const res = await fetch(`${baseURL}service-all`, {
-        method: 'GET',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-        }
-    });
-    return await res.json();
+    try {
+        const res = await fetch(`${baseURL}service-all`, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            cache: 'no-store',
+        });
+        if (!res.ok) return { data: [] };
+        return await res.json();
+    } catch {
+        return { data: [] };
+    }
 }
 
 export async function serviceListAction() {

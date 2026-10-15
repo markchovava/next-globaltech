@@ -5,6 +5,7 @@ import ServiceSection from '@/_components/sections/ServiceSection'
 import Spacer from '@/_components/spacers/Spacer'
 import { AppInfoData } from '@/_data/sample/AppinfoData'
 import { ServiceData } from '@/_data/sample/ServiceData'
+import { serviceAllAction } from '@/app/admin/_data/actions/ServiceActions'
 import { Metadata } from 'next'
 
 
@@ -27,14 +28,18 @@ const CrumbsData = [
 ]
 
 
-export default function page() {
+export default async function page() {
+    const [serviceData] = await Promise.all([
+        serviceAllAction()
+    ])
+
     return (
         <>
             <HeaderSecondary name={title} image={AppInfoData.headers[2]} />
             <BreadCrumb data={CrumbsData} />
 
             <ServiceSection
-                list={ServiceData}
+                list={serviceData?.data}
                 title="What we do?"
                 subtitle={title} />
 

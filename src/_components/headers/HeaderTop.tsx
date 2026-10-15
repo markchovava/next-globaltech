@@ -5,6 +5,7 @@ import Link from "next/link"
 import { AnimatePresence, motion, useReducedMotion } from "motion/react"
 import IconDefault from "../icons/IconDefault"
 import { AppInfoData } from "@/_data/sample/AppinfoData"
+import { useAppInfoStore } from "@/_store/useAppInfoStore"
 
 /* ------------------------------------------------------------------ */
 /*  Office hours (Harare time). Change these to match your real hours. */
@@ -51,6 +52,7 @@ function useOfficeStatus(): OfficeStatus {
 
 export default function HeaderTop() {
     const status = useOfficeStatus()
+    const { setData, data } = useAppInfoStore()
 
     return (
         <section className="w-full border-b border-gray-200 bg-white py-2">
@@ -59,14 +61,14 @@ export default function HeaderTop() {
                 <ul className="flex  items-center gap-x-4 gap-y-1">
                     <ContactItem
                         type="email"
-                        label={AppInfoData.email}
-                        href={`mailto:${AppInfoData.email}`}
+                        label={data.email}
+                        href={`#`}
                     /* copyValue={AppInfoData.email} */
                     />
                     <ContactItem
                         type="phone"
-                        label={AppInfoData.phone}
-                        href={`tel:${AppInfoData.phone.replace(/[^\d+]/g, "")}`}
+                        label={data.phone}
+                        href={`#`}
                     />
                 </ul>
 

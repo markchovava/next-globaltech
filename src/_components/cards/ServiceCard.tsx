@@ -123,8 +123,9 @@ export default function ServiceCard({
                     >
                         <Image
                             alt={typeof name === "string" ? name : "Service image"}
-                            src={safeImage}
+                            src={safeImage ?? NoImageData}
                             fill
+                            unoptimized
                             sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
                             className="object-cover"
                         />
@@ -191,9 +192,8 @@ export default function ServiceCard({
                     transition={{ duration: 0.25, ease: "easeIn" }}
                     className="overflow-hidden"
                 >
-                    <p className="pt-2 text-sm leading-relaxed text-white/85 line-clamp-4">
-                        {data.desc}
-                    </p>
+                    <div dangerouslySetInnerHTML={{ __html: data.desc }} className="pt-2 text-sm leading-relaxed text-white/85 line-clamp-4">
+                    </div>
                 </motion.div>
             </div>
         </motion.div>

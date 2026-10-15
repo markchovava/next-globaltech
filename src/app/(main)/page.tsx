@@ -9,6 +9,7 @@ import ExperienceSection from "@/_components/sections/ExperienceSection";
 import ServiceSection from "@/_components/sections/ServiceSection";
 import { ServiceData } from "@/_data/sample/ServiceData";
 import ClientSection from "@/_components/sections/ClientSection";
+import { serviceAllAction } from "../admin/_data/actions/ServiceActions";
 
 
 
@@ -27,7 +28,11 @@ export const metadata: Metadata = {
 
 
 export default async function Page() {
+  const [serviceData] = await Promise.all([
+    serviceAllAction()
+  ])
 
+  console.log('serviceData.data', serviceData?.data)
 
   return (
     <>
@@ -59,7 +64,7 @@ export default async function Page() {
       />
 
       <ServiceSection
-        list={ServiceData}
+        list={serviceData.data ?? ServiceData}
         title="What we do?"
         subtitle='Our Services' />
 

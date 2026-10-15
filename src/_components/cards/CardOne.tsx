@@ -37,10 +37,10 @@ export default function CardOne({ data }: Props) {
     }
 
 
-    const handleToggleModal = () => {
-        setToggleModal(!toggleModal)
-        setOffer(data)
-    }
+    /*  const handleToggleModal = () => {
+         setToggleModal(!toggleModal)
+         setOffer(data)
+     } */
 
     return (
         <motion.div
@@ -92,12 +92,11 @@ export default function CardOne({ data }: Props) {
 
             <div className="absolute z-12 h-[50%] w-full bottom-0 left-0 bg-linear-to-t from-black/50 to-transparent" />
 
-            <div onClick={handleToggleModal}>
+            <div>
                 <PointerButton />
             </div>
 
             <motion.div
-                onClick={handleToggleModal}
                 variants={{
                     initial: { y: 0 },
                     hover: { y: -4 },
