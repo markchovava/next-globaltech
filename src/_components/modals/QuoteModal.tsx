@@ -11,10 +11,12 @@ import TextAreaInputDefault from '@/app/admin/_components/forms/textareas/TextAr
 import { useQuoteStore } from '@/_store/useQuoteStore';
 import { MontserratBold } from '@/_assets/fonts/montserrat/_MontserratFont';
 import Button from '../buttons/Button';
+import { inquiryStoreAction } from '@/app/admin/_data/actions/InquiryActions';
+import { useInquiryStore } from '@/_store/useInquiryStore';
 
 
 const title = "Service Request"
-
+const ERROR_MESSAGE = "Something went wrong, please try again."
 
 const overlayVariants: Variants = {
     hidden: { opacity: 0 },
@@ -50,7 +52,6 @@ export default function QuoteModal() {
         toggleModal,
         isSubmitting,
         errors,
-        offer,
         service,
         resetData,
         clearErrors,
@@ -58,7 +59,7 @@ export default function QuoteModal() {
         setToggleModal,
         setIsSubmitting,
         validateForm,
-    } = useQuoteStore()
+    } = useInquiryStore()
 
     useEffect(() => {
         resetData()
@@ -75,25 +76,25 @@ export default function QuoteModal() {
         // Validate form using store validation logic
         const validation = validateForm();
         if (!validation.isValid) {
-            const firstError = validation.errors.name ||
-                validation.errors.phone ||
-                validation.errors.email ||
-                validation.errors.address
+            const firstError = validation.errors.customerName ||
+                validation.errors.customerPhone ||
+                validation.errors.customerEmail ||
+                validation.errors.customerAddress
             toast.warn(firstError);
             return;
         }
 
         setIsSubmitting(true);
         const formData = {
-            name: data.name,
-            phone: data.phone,
-            email: data.email,
-            address: data.address,
+            customerName: data.customerName,
+            customerPhone: data.customerPhone,
+            customerEmail: data.customerEmail,
+            customerAddress: data.customerAddress,
             message: data.message,
         }
 
-        /* try {
-            const res = await quoteStoreAction(formData);
+        try {
+            const res = await inquiryStoreAction(formData);
             console.log('res', res)
             const { status, message } = res;
             switch (status) {
@@ -105,15 +106,15 @@ export default function QuoteModal() {
                     resetData();
                     return
                 default:
-                    toast.success('Something went wrong, please try again.');
+                    toast.error(ERROR_MESSAGE);
                     setIsSubmitting(false);
                     return
             }
         } catch (error) {
-            toast.error('Failed to save data. Please try again.');
+            toast.error(ERROR_MESSAGE);
             console.error('Form submission error:', error);
             setIsSubmitting(false);
-        } */
+        }
     }
 
     return (
@@ -156,7 +157,7 @@ export default function QuoteModal() {
                                     {service.desc &&
                                         <div>
                                             <p className={`text-xs`}>Description:</p>
-                                            <div className={``}>{service.desc}</div>
+                                            <div className={``} dangerouslySetInnerHTML={{ __html: service.desc }} />
                                         </div>
                                     }
                                 </div>
@@ -165,10 +166,10 @@ export default function QuoteModal() {
                                     label='Customer Name'
                                     name='customerName'
                                     type="text"
-                                    value={data.name || ''}
+                                    value={data.customerName || ''}
                                     placeholder='Enter Customer Name.'
                                     onChange={setInputValue}
-                                    error={errors.name}
+                                    error={errors.customerName}
                                 />
                                 <SpacerPrimary />
 
@@ -176,32 +177,32 @@ export default function QuoteModal() {
                                     label='Customer Phone'
                                     name='customerPhone'
                                     type="text"
-                                    value={data.phone || ''}
+                                    value={data.customerPhone || ''}
                                     placeholder='Enter Phone Number here.'
                                     onChange={setInputValue}
-                                    error={errors.phone}
+                                    error={errors.customerPhone}
                                 />
                                 <SpacerPrimary />
 
                                 <TextInputDefault
                                     label='Email'
-                                    name='email'
+                                    name='customerEmail'
                                     type="text"
-                                    value={data.email || ''}
+                                    value={data.customerEmail || ''}
                                     placeholder='Enter Email Address here.'
                                     onChange={setInputValue}
-                                    error={errors.email}
+                                    error={errors.customerEmail}
                                 />
                                 <SpacerPrimary />
 
                                 <TextInputDefault
                                     label='Address'
-                                    name='address'
+                                    name='customerAddress'
                                     type="text"
-                                    value={data.address || ''}
+                                    value={data.customerAddress || ''}
                                     placeholder='Enter Address here.'
                                     onChange={setInputValue}
-                                    error={errors.address}
+                                    error={errors.customerAddress}
                                 />
                                 <SpacerPrimary />
 

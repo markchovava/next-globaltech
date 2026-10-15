@@ -7,6 +7,7 @@ import IconDefault from "../icons/IconDefault"
 import { NoImageData } from "@/_data/sample/NoImage"
 import { useQuoteStore } from "@/_store/useQuoteStore"
 import { ServiceInterface } from "@/_data/entity/ServiceEntity"
+import { useInquiryStore } from "@/_store/useInquiryStore"
 
 interface Props {
     image?: string
@@ -19,7 +20,7 @@ export default function ServiceCard({
     data,
     image = NoImageData
 }: Props) {
-    const { setService, setToggleModal } = useQuoteStore()
+    const { setService, setToggleModal } = useInquiryStore()
 
     const safeImage =
         typeof image === "string" && image.trim().length > 0 ? image : NoImageData
@@ -192,7 +193,9 @@ export default function ServiceCard({
                     transition={{ duration: 0.25, ease: "easeIn" }}
                     className="overflow-hidden"
                 >
-                    <div dangerouslySetInnerHTML={{ __html: data.desc }} className="pt-2 text-sm leading-relaxed text-white/85 line-clamp-4">
+                    <div
+                        dangerouslySetInnerHTML={{ __html: data.desc }}
+                        className="pt-2 text-sm leading-relaxed text-white/85 line-clamp-4">
                     </div>
                 </motion.div>
             </div>

@@ -41,7 +41,7 @@ export default function ServiceSection({
         }
     }, [list, setDatalist])
 
-    console.log('datalist:: ', datalist)
+    //console.log('datalist:: ', datalist)
 
     return (
         <section className="w-full">
@@ -62,7 +62,7 @@ export default function ServiceSection({
                         >
                             <ServiceCard
                                 key={index}
-                                image={i.image ? baseURL + i.image : NoImageData}
+                                image={i.image ? (baseURL + i.image) : NoImageData}
                                 data={i} />
                         </motion.div>
                     ))}
