@@ -30,6 +30,7 @@ export default function GalleryPage({
     title
 }: Props
 ) {
+    // console.log('GALLERY dbData:: ', dbData)
     const {
         search,
         isSearching,
@@ -47,7 +48,7 @@ export default function GalleryPage({
         setDataList(dbData)
     }, [dbData.data, setDataList])
 
-    console.log("dbData:: ", dbData)
+    // console.log("dbData:: ", dbData)
 
     const handleToggleModal = () => {
         setToggleModal(!toggleModal)

@@ -120,7 +120,7 @@ export default function GalleryCard({
                         transition={{ duration: 0.6, ease: "easeOut" }}
                         className="w-full h-full" >
                         <Image
-                            alt={data?.event?.name ?? 'Gallery Image'}
+                            alt={'Gallery Image'}
                             src={safeImage}
                             fill
                             unoptimized
@@ -158,37 +158,33 @@ export default function GalleryCard({
                 <PointerButton />
             </button>
 
-            {/* text block is anchored to the bottom, so the title rises as the description grows */}
-            <div className="absolute z-20 bottom-0 left-0 w-full py-6 px-5 text-white">
-                <button
-                    onClick={(e) => {
-                        e.stopPropagation()
-                    }}>
-                    <h4 className="text-x text-start font-medium">
-                        {data.event.name}
-                    </h4>
-                </button>
-
+            {/* title appears only when active (hover / focus / tap) */}
+            <div className="absolute z-20 bottom-0 left-0 w-full py-6 px-5 text-white pointer-events-none">
                 <motion.div
                     variants={{
-                        rest: { height: 0, opacity: 0, y: 12 },
+                        rest: { opacity: 0, y: 12 },
                         active: {
-                            height: "auto",
                             opacity: 1,
                             y: 0,
-                            transition: {
-                                height: { duration: 0.4, ease: EASE_OUT },
-                                opacity: { duration: 0.3, delay: 0.1 },
-                                y: { duration: 0.4, ease: EASE_OUT, delay: 0.05 },
-                            },
+                            transition: { duration: 0.4, ease: EASE_OUT },
                         },
                     }}
                     transition={{ duration: 0.25, ease: "easeIn" }}
-                    className="overflow-hidden"
                 >
-
+                    <button
+                        className="pointer-events-auto"
+                        tabIndex={active ? 0 : -1}
+                        onClick={(e) => {
+                            e.stopPropagation()
+                        }}>
+                        <h4 className="text-xl text-start font-medium">
+                            {data?.event?.name ?? ""}
+                        </h4>
+                    </button>
                 </motion.div>
             </div>
+
+
         </motion.div>
     )
 }

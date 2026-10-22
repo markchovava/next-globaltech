@@ -6,22 +6,15 @@ import { toast } from 'react-toastify';
 import ButtonAdminClose from '../../_components/buttons/ButtonAdminClose';
 import SpacerPrimary from '@/_components/spacers/SpacerPrimary';
 import HeadingSecondary from '../../_components/headings/HeadingSecondary';
-import TextInputDefault from '../../_components/forms/inputs/TextInputDefault';
 import { ButtonAdminSubmit } from '../../_components/buttons/ButtonAdminSubmit';
-import SelectAdminDefault from '../../_components/forms/selects/SelectAdminDefault';
 import ImageInputDefault from '../../_components/forms/image/ImageInputDefault';
 import { _eventStoreAction } from '../../_data/actions/EventActions';
-import { useEventStore } from '../../_data/store/useEventStore';
-import { listNumbers } from '@/_utils/formatNumber';
-import RichTextEditor from '../../_components/forms/editors/RichTextEditor';
-import { StatusData } from '../../_data/sample/StatusData';
 import { useGalleryStore } from '../../_data/store/useGalleryStore';
 import SelectAdminOne from '../../_components/forms/selects/SelectAdminOne';
 import { _galleryStoreAction } from '../../_data/actions/GalleryActions';
 
 
-
-const title = "Add Event"
+const title = "Add Gallery"
 const ERROR_MESSAGE = "Something went wrong, please try again."
 
 const variants: Variants = {
@@ -34,10 +27,11 @@ const variants: Variants = {
 
 interface Props {
     eventsData?: any
+    title?: string
 }
 
 export default function GalleryAddModal({
-    eventsData
+    eventsData,
 }: Props) {
     const {
         data,
@@ -133,7 +127,7 @@ export default function GalleryAddModal({
                             </div>
 
                             <form onSubmit={handleSubmit}>
-                                <HeadingSecondary title={title} css='text-center' />
+                                <HeadingSecondary title={title ?? ''} css='text-center' />
                                 <SpacerPrimary />
                                 <hr className="w-full border-b border-gray-100" />
                                 <SpacerPrimary />
@@ -196,6 +190,7 @@ export default function GalleryAddModal({
                                         const event = eventList.find((s) => String(s.value) === id)
                                         setSelectedEvent(id, event?.label ?? '')
                                     }}
+                                    error={""}
                                 />
                                 <SpacerPrimary />
 

@@ -29,7 +29,7 @@ export default async function page() {
       <GalleryPage title={title} dbData={galleriesData} />
 
       {/* MODAL */}
-      <GalleryAddModal eventsData={eventsData} />
+      <GalleryAddModal title={title} eventsData={eventsData} />
 
     </>
   )

@@ -3,6 +3,9 @@
 import { baseURL } from "@/_api/baseURL";
 import { revalidatePath } from "next/cache";
 import { getAuthHeaders } from "./_helpers/getAuthHeaders";
+import { AuthServerCookieName } from "@/_cookie/CookieServer";
+import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
 
 
 
@@ -135,12 +138,16 @@ export async function _galleryViewAction(id: number | string) {
 }
 
 export async function _galleryStoreAction(data: any) {
-    const authHeader = await getAuthHeaders();
+    const cookieStore = await cookies();
+    const authToken = cookieStore.get(AuthServerCookieName);
+    if (!authToken?.value) {
+        redirect('/admin/login');
+    }
     const res = await fetch(`${baseURL}api/gallery`, {
         method: 'POST',
         body: data,
         headers: {
-            ...authHeader,
+            'Authorization': `Bearer ${authToken.value}`,
         }
     });
     revalidatePath('/admin/gallery');
