@@ -1,4 +1,5 @@
 import BreadCrumbDefault from "../_components/bread-crumbs/BreadCrumbDefault"
+import { getAuthHeaders } from "../_data/actions/_helpers/getAuthHeaders"
 import { _eventAllAction } from "../_data/actions/EventActions"
 import { _galleryListAction } from "../_data/actions/GalleryActions"
 import GalleryAddModal from "./_components/GalleryAddModal"
@@ -15,6 +16,7 @@ const CrumbsData = [
 
 
 export default async function page() {
+  await getAuthHeaders();
   const [galleriesData, eventsData] = await Promise.all([
     _galleryListAction(),
     _eventAllAction(),

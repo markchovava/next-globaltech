@@ -2,6 +2,7 @@ import BreadCrumbDefault from "../_components/bread-crumbs/BreadCrumbDefault"
 import ServiceAddModal from "./_components/ServiceAddModal"
 import ServicePage from "./_components/ServicePage"
 import { _serviceListAction } from "../_data/actions/ServiceActions"
+import { getAuthHeaders } from "../_data/actions/_helpers/getAuthHeaders"
 
 
 
@@ -12,6 +13,7 @@ const CrumbsData = [
 
 
 export default async function page() {
+  await getAuthHeaders()
   const [serviceData] = await Promise.all([_serviceListAction()])
 
   return (
