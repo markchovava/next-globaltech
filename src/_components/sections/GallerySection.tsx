@@ -104,6 +104,7 @@ export default function GallerySection({
                         links={links}
                         handlePaginate={handlePaginate} />
                 </section>
+                <Spacer />
             </section>
 
             <ImageLightbox
