@@ -151,6 +151,7 @@ export async function _galleryStoreAction(data: any) {
         }
     });
     revalidatePath('/admin/gallery');
+    revalidatePath('/gallery');
     return await res.json();
 }
 
