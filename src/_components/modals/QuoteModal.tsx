@@ -86,6 +86,7 @@ export default function QuoteModal() {
 
         setIsSubmitting(true);
         const formData = {
+            serviveName: service.name,
             customerName: data.customerName,
             customerPhone: data.customerPhone,
             customerEmail: data.customerEmail,

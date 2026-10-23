@@ -73,9 +73,9 @@ export default function ServiceViewPage({ dbData }: Props) {
 function DataMainArea() {
   const { preData, isLoading } = useServiceStore()
 
-  const updated = preData.updatedAt ? formatDate(preData.updatedAt) : 'Not Added yet.'
+  const updated = preData?.updatedAt ? formatDate(preData?.updatedAt) : 'Not Added yet.'
   const user = preData?.user?.name ? preData?.user?.name : preData?.user?.email
-  const priority = preData.priority ? preData.priority.toString() : 'Not Added yet.'
+  const priority = preData?.priority ? preData.priority.toString() : 'Not Added yet.'
 
 
   if (isLoading) {
